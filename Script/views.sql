@@ -92,4 +92,19 @@ AS
     SELECT
         'Fotógrafos' as Label, (SELECT COUNT(ID_USUARIO) FROM USUARIO WHERE TIPO_USUARIO LIKE 'Fotógrafo') AS 'Quantidade';
         
-SELECT * FROM vw_total_clientes_fotografos;
+CREATE VIEW vw_total_clientes_mes
+AS 
+	SELECT 
+		'Clientes' as Label, (SELECT COUNT(ID_USUARIO) FROM USUARIO WHERE TIPO_USUARIO = 1) AS 'Quantidade'
+	UNION 
+    SELECT 
+		'Porcentagem' as Label, (SELECT COUNT(ID_USUARIO) FROM USUARIO WHERE DATEDIFF(CURDATE(), DATA_CADASTRO) <= 31);
+        
+CREATE VIEW vw_total_sessoes_realizadas
+AS
+	SELECT 
+		'Sessões Realizadas' as Label, (SELECT COUNT(ID_EVENTO) FROM EVENTO WHERE STATUS_EVENTO = 'Finalizado');
+        
+CREATE VIEW vw_acessos_mes
+AS
+	SELECT 'Acessos' as Label, (SELECT COUNT(ID_USUARIO) FROM USUARIO WHERE DATEDIFF(CURDATE(), ULTIMO_LOGIN) <= 31);
