@@ -1,50 +1,50 @@
 INSERT INTO USUARIO (NOME, CPF, EMAIL, SENHA, DATA_NASCIMENTO, AUTENTICADO, CELULAR, DATA_CADASTRO, TIPO_USUARIO, TOKEN_SOLICITACAO)
 VALUES
-  ('João Silva', '12345678901', 'joao@email.com', 'senha123', '1990-01-01', 1, '9999999999', '2023-05-01', 'Cliente', 'token123'),
-  ('Maria Santos', '98765432101', 'maria@email.com', 'senha456', '1995-02-15', 1, '8888888888', '2023-05-02', 'Fotógrafo', 'token456'),
-  ('Pedro Oliveira', '54321678901', 'pedro@email.com', 'senha789', '1988-08-20', 0, '7777777777', '2023-05-03', 'Cliente', NULL),
-  ('Ana Souza', '98765432102', 'ana@email.com', 'senha123', '1992-04-10', 1, '6666666666', '2023-05-04', 'Cliente', 'token789'),
-  ('Lucas Santos', '12345098765', 'lucas@email.com', 'senha456', '1993-11-25', 1, '5555555555', '2023-05-05', 'Fotógrafo', 'tokenabc'),
-  ('Élise Dupont', '111.111.111-11', 'elise.dupont@example.com', 'senha123', '1990-05-15', 1, '(11) 99999-1111', '2023-05-28', 'Cliente', 'abc123'),
-  ('Lucas Lefebvre', '222.222.222-22', 'lucas.lefebvre@example.com', 'senha456', '1995-08-23', 1, '(11) 99999-2222', '2023-05-28', 'Cliente', 'def456'),
-  ('Léa Martin', '333.333.333-33', 'lea.martin@example.com', 'senha789', '1988-03-10', 1, '(11) 99999-3333', '2023-05-28', 'Fotógrafo', 'ghi789'),
-  ('Noémie Dubois', '444.444.444-44', 'noemie.dubois@example.com', 'senhaabc', '1992-11-05', 1, '(11) 99999-4444', '2023-05-28', 'Cliente', 'jklabc'),
-  ('Théo Laurent', '555.555.555-55', 'theo.laurent@example.com', 'senhadef', '1985-07-17', 1, '(11) 99999-5555', '2023-05-28', 'Fotógrafo', 'mnodef'),
-  ('Manon Girard', '666.666.666-66', 'manon.girard@example.com', 'senha123', '1991-02-12', 1, '(11) 99999-6666', '2023-05-28', 'Cliente', 'pqr123'),
-  ('Antoine Moreau', '777.777.777-77', 'antoine.moreau@example.com', 'senha456', '1996-09-27', 1, '(11) 99999-7777', '2023-05-28', 'Cliente', 'stu456'),
-  ('Chloé Rousseau', '888.888.888-88', 'chloe.rousseau@example.com', 'senha789', '1989-04-03', 1, '(11) 99999-8888', '2023-05-28', 'Fotógrafo', 'vwx789'),
-  ('Gabriel Petit', '999.999.999-99', 'gabriel.petit@example.com', 'senhaabc', '1993-12-18', 1, '(11) 99999-9999', '2023-05-28', 'Cliente', 'yz0123'),
-  ('Sophie Lefevre', '000.000.000-00', 'sophie.lefevre@example.com', 'senhadef', '1986-10-08', 1, '(11) 99999-0000', '2023-05-28', 'Fotógrafo', '345def'),
-  ('Hugo Martin', '111.111.111-11', 'hugo.martin@example.com', 'senha123', '1990-05-15', 1, '(11) 99999-1111', '2023-05-28', 'Cliente', '678abc'),
-  ('Camille Roux', '222.222.222-22', 'camille.roux@example.com', 'senha456', '1995-08-23', 1, '(11) 99999-2222', '2023-05-28', 'Cliente', '901def'),
-  ('Juliette Lemoine', '333.333.333-33', 'juliette.lemoine@example.com', 'senha789', '1988-03-10', 1, '(11) 99999-3333', '2023-05-28', 'Fotógrafo', '234ghi'),
-  ('Louis Blanchard', '444.444.444-44', 'louis.blanchard@example.com', 'senhaabc', '1992-11-05', 1, '(11) 99999-4444', '2023-05-28', 'Cliente', '567jkl'),
-  ('Léna Roy', '555.555.555-55', 'lena.roy@example.com', 'senhadef', '1985-07-17', 1, '(11) 99999-5555', '2023-05-28', 'Fotógrafo', '890mno'),
-  ('Thomas David', '666.666.666-66', 'thomas.david@example.com', 'senha123', '1991-02-12', 1, '(11) 99999-6666', '2023-05-28', 'Cliente', '123pqr'),
-  ('Mathilde Lefort', '777.777.777-77', 'mathilde.lefort@example.com', 'senha456', '1996-09-27', 1, '(11) 99999-7777', '2023-05-28', 'Cliente', '456stu'),
-  ('Nathan Guillaume', '888.888.888-88', 'nathan.guillaume@example.com', 'senha789', '1989-04-03', 1, '(11) 99999-8888', '2023-05-28', 'Fotógrafo', '789vwx'),
-  ('Emma Renard', '999.999.999-99', 'emma.renard@example.com', 'senhaabc', '1993-12-18', 1, '(11) 99999-9999', '2023-05-28', 'Cliente', '012yz'),
-  ('Romain Dubois', '000.000.000-00', 'romain.dubois@example.com', 'senhadef', '1986-10-08', 1, '(11) 99999-0000', '2023-05-28', 'Fotógrafo', '345678'),
-  ('Louise Mercier', '111.111.111-11', 'louise.mercier@example.com', 'senha123', '1990-05-15', 1, '(11) 99999-1111', '2023-05-28', 'Cliente', '901234'),
-  ('Pauline Leroy', '222.222.222-22', 'pauline.leroy@example.com', 'senha456', '1995-08-23', 1, '(11) 99999-2222', '2023-05-28', 'Cliente', '567890'),
-  ('Lucie Caron', '333.333.333-33', 'lucie.caron@example.com', 'senha789', '1988-03-10', 1, '(11) 99999-3333', '2023-05-28', 'Fotógrafo', '123abc'),
-  ('Hugo Bernard', '444.444.444-44', 'hugo.bernard@example.com', 'senhaabc', '1992-11-05', 1, '(11) 99999-4444', '2023-05-28', 'Cliente', '456def'),
-  ('Alice Dufour', '555.555.555-55', 'alice.dufour@example.com', 'senhadef', '1985-07-17', 1, '(11) 99999-5555', '2023-05-28', 'Fotógrafo', '789ghi'),
-  ('Jules Renaud', '666.666.666-66', 'jules.renaud@example.com', 'senha123', '1991-02-12', 1, '(11) 99999-6666', '2023-05-28', 'Cliente', '012jkl'),
-  ('Lola Aubry', '777.777.777-77', 'lola.aubry@example.com', 'senha456', '1996-09-27', 1, '(11) 99999-7777', '2023-05-28', 'Cliente', '345mno'),
-  ('Mathis Michel', '888.888.888-88', 'mathis.michel@example.com', 'senha789', '1989-04-03', 1, '(11) 99999-8888', '2023-05-28', 'Fotógrafo', '678pqr'),
-  ('Léonie Dupuis', '999.999.999-99', 'leonie.dupuis@example.com', 'senhaabc', '1993-12-18', 1, '(11) 99999-9999', '2023-05-28', 'Cliente', '901stu'),
-  ('Louis Lecomte', '000.000.000-00', 'louis.lecomte@example.com', 'senhadef', '1986-10-08', 1, '(11) 99999-0000', '2023-05-28', 'Fotógrafo', '234vwx'),
-  ('Inès Brun', '111.111.111-11', 'ines.brun@example.com', 'senha123', '1990-05-15', 1, '(11) 99999-1111', '2023-05-28', 'Cliente', '567yz'),
-  ('Nathan Lambert', '222.222.222-22', 'nathan.lambert@example.com', 'senha456', '1995-08-23', 1, '(11) 99999-2222', '2023-05-28', 'Cliente', '890abc'),
-  ('Lucie Guérin', '333.333.333-33', 'lucie.guerin@example.com', 'senha789', '1988-03-10', 1, '(11) 99999-3333', '2023-05-28', 'Fotógrafo', '123def'),
-  ('Maxime Pierre', '444.444.444-44', 'maxime.pierre@example.com', 'senhaabc', '1992-11-05', 1, '(11) 99999-4444', '2023-05-28', 'Cliente', '456ghi'),
-  ('Léna Renard', '555.555.555-55', 'lena.renard@example.com', 'senhadef', '1985-07-17', 1, '(11) 99999-5555', '2023-05-28', 'Fotógrafo', '789jkl'),
-  ('Mathis Dupont', '666.666.666-66', 'mathis.dupont@example.com', 'senha123', '1991-02-12', 1, '(11) 99999-6666', '2023-05-28', 'Cliente', '012mno'),
-  ('Lola Lemoine', '777.777.777-77', 'lola.lemoine@example.com', 'senha456', '1996-09-27', 1, '(11) 99999-7777', '2023-05-28', 'Cliente', '345pqr'),
-  ('Tom Lefevre', '888.888.888-88', 'tom.lefevre@example.com', 'senha789', '1989-04-03', 1, '(11) 99999-8888', '2023-05-28', 'Fotógrafo', '678stu'),
-  ('Louise Simon', '999.999.999-99', 'louise.simon@example.com', 'senhaabc', '1993-12-18', 1, '(11) 99999-9999', '2023-05-28', 'Cliente', '901vwx'),
-  ('Arthur Petit', '000.000.000-00', 'arthur.petit@example.com', 'senhadef', '1986-10-08', 1, '(11) 99999-0000', '2023-05-28', 'Fotógrafo', '234yz');
+  ('João Silva', '12345678901', 'joao@email.com', 'senha123', '1990-01-01', 1, '9999999999', '2023-05-01', 1, 'token123'),
+  ('Maria Santos', '98765432101', 'maria@email.com', 'senha456', '1995-02-15', 1, '8888888888', '2023-05-02', 2, 'token456'),
+  ('Pedro Oliveira', '54321678901', 'pedro@email.com', 'senha789', '1988-08-20', 0, '7777777777', '2023-05-03', 1, NULL),
+  ('Ana Souza', '98765432102', 'ana@email.com', 'senha123', '1992-04-10', 1, '6666666666', '2023-05-04', 1, 'token789'),
+  ('Lucas Santos', '12345098765', 'lucas@email.com', 'senha456', '1993-11-25', 1, '5555555555', '2023-05-05', 2, 'tokenabc'),
+  ('Élise Dupont', '111.111.111-11', 'elise.dupont@example.com', 'senha123', '1990-05-15', 1, '(11) 99999-1111', '2023-05-28', 1, 'abc123'),
+  ('Lucas Lefebvre', '222.222.222-22', 'lucas.lefebvre@example.com', 'senha456', '1995-08-23', 1, '(11) 99999-2222', '2023-05-28', 1, 'def456'),
+  ('Léa Martin', '333.333.333-33', 'lea.martin@example.com', 'senha789', '1988-03-10', 1, '(11) 99999-3333', '2023-05-28', 2, 'ghi789'),
+  ('Noémie Dubois', '444.444.444-44', 'noemie.dubois@example.com', 'senhaabc', '1992-11-05', 1, '(11) 99999-4444', '2023-05-28', 1, 'jklabc'),
+  ('Théo Laurent', '555.555.555-55', 'theo.laurent@example.com', 'senhadef', '1985-07-17', 1, '(11) 99999-5555', '2023-05-28', 2, 'mnodef'),
+  ('Manon Girard', '666.666.666-66', 'manon.girard@example.com', 'senha123', '1991-02-12', 1, '(11) 99999-6666', '2023-05-28', 1, 'pqr123'),
+  ('Antoine Moreau', '777.777.777-77', 'antoine.moreau@example.com', 'senha456', '1996-09-27', 1, '(11) 99999-7777', '2023-05-28', 1, 'stu456'),
+  ('Chloé Rousseau', '888.888.888-88', 'chloe.rousseau@example.com', 'senha789', '1989-04-03', 1, '(11) 99999-8888', '2023-05-28', 2, 'vwx789'),
+  ('Gabriel Petit', '999.999.999-99', 'gabriel.petit@example.com', 'senhaabc', '1993-12-18', 1, '(11) 99999-9999', '2023-05-28', 1, 'yz0123'),
+  ('Sophie Lefevre', '000.000.000-00', 'sophie.lefevre@example.com', 'senhadef', '1986-10-08', 1, '(11) 99999-0000', '2023-05-28', 2, '345def'),
+  ('Hugo Martin', '111.111.111-11', 'hugo.martin@example.com', 'senha123', '1990-05-15', 1, '(11) 99999-1111', '2023-05-28', 1, '678abc'),
+  ('Camille Roux', '222.222.222-22', 'camille.roux@example.com', 'senha456', '1995-08-23', 1, '(11) 99999-2222', '2023-05-28', 1, '901def'),
+  ('Juliette Lemoine', '333.333.333-33', 'juliette.lemoine@example.com', 'senha789', '1988-03-10', 1, '(11) 99999-3333', '2023-05-28', 2, '234ghi'),
+  ('Louis Blanchard', '444.444.444-44', 'louis.blanchard@example.com', 'senhaabc', '1992-11-05', 1, '(11) 99999-4444', '2023-05-28', 1, '567jkl'),
+  ('Léna Roy', '555.555.555-55', 'lena.roy@example.com', 'senhadef', '1985-07-17', 1, '(11) 99999-5555', '2023-05-28', 2, '890mno'),
+  ('Thomas David', '666.666.666-66', 'thomas.david@example.com', 'senha123', '1991-02-12', 1, '(11) 99999-6666', '2023-05-28', 1, '123pqr'),
+  ('Mathilde Lefort', '777.777.777-77', 'mathilde.lefort@example.com', 'senha456', '1996-09-27', 1, '(11) 99999-7777', '2023-05-28', 1, '456stu'),
+  ('Nathan Guillaume', '888.888.888-88', 'nathan.guillaume@example.com', 'senha789', '1989-04-03', 1, '(11) 99999-8888', '2023-05-28', 2, '789vwx'),
+  ('Emma Renard', '999.999.999-99', 'emma.renard@example.com', 'senhaabc', '1993-12-18', 1, '(11) 99999-9999', '2023-05-28', 1, '012yz'),
+  ('Romain Dubois', '000.000.000-00', 'romain.dubois@example.com', 'senhadef', '1986-10-08', 1, '(11) 99999-0000', '2023-05-28', 2, '345678'),
+  ('Louise Mercier', '111.111.111-11', 'louise.mercier@example.com', 'senha123', '1990-05-15', 1, '(11) 99999-1111', '2023-05-28', 1, '901234'),
+  ('Pauline Leroy', '222.222.222-22', 'pauline.leroy@example.com', 'senha456', '1995-08-23', 1, '(11) 99999-2222', '2023-05-28', 1, '567890'),
+  ('Lucie Caron', '333.333.333-33', 'lucie.caron@example.com', 'senha789', '1988-03-10', 1, '(11) 99999-3333', '2023-05-28', 2, '123abc'),
+  ('Hugo Bernard', '444.444.444-44', 'hugo.bernard@example.com', 'senhaabc', '1992-11-05', 1, '(11) 99999-4444', '2023-05-28', 1, '456def'),
+  ('Alice Dufour', '555.555.555-55', 'alice.dufour@example.com', 'senhadef', '1985-07-17', 1, '(11) 99999-5555', '2023-05-28', 2, '789ghi'),
+  ('Jules Renaud', '666.666.666-66', 'jules.renaud@example.com', 'senha123', '1991-02-12', 1, '(11) 99999-6666', '2023-05-28', 1, '012jkl'),
+  ('Lola Aubry', '777.777.777-77', 'lola.aubry@example.com', 'senha456', '1996-09-27', 1, '(11) 99999-7777', '2023-05-28', 1, '345mno'),
+  ('Mathis Michel', '888.888.888-88', 'mathis.michel@example.com', 'senha789', '1989-04-03', 1, '(11) 99999-8888', '2023-05-28', 2, '678pqr'),
+  ('Léonie Dupuis', '999.999.999-99', 'leonie.dupuis@example.com', 'senhaabc', '1993-12-18', 1, '(11) 99999-9999', '2023-05-28', 1, '901stu'),
+  ('Louis Lecomte', '000.000.000-00', 'louis.lecomte@example.com', 'senhadef', '1986-10-08', 1, '(11) 99999-0000', '2023-05-28', 2, '234vwx'),
+  ('Inès Brun', '111.111.111-11', 'ines.brun@example.com', 'senha123', '1990-05-15', 1, '(11) 99999-1111', '2023-05-28', 1, '567yz'),
+  ('Nathan Lambert', '222.222.222-22', 'nathan.lambert@example.com', 'senha456', '1995-08-23', 1, '(11) 99999-2222', '2023-05-28', 1, '890abc'),
+  ('Lucie Guérin', '333.333.333-33', 'lucie.guerin@example.com', 'senha789', '1988-03-10', 1, '(11) 99999-3333', '2023-05-28', 2, '123def'),
+  ('Maxime Pierre', '444.444.444-44', 'maxime.pierre@example.com', 'senhaabc', '1992-11-05', 1, '(11) 99999-4444', '2023-05-28', 1, '456ghi'),
+  ('Léna Renard', '555.555.555-55', 'lena.renard@example.com', 'senhadef', '1985-07-17', 1, '(11) 99999-5555', '2023-05-28', 2, '789jkl'),
+  ('Mathis Dupont', '666.666.666-66', 'mathis.dupont@example.com', 'senha123', '1991-02-12', 1, '(11) 99999-6666', '2023-05-28', 1, '012mno'),
+  ('Lola Lemoine', '777.777.777-77', 'lola.lemoine@example.com', 'senha456', '1996-09-27', 1, '(11) 99999-7777', '2023-05-28', 1, '345pqr'),
+  ('Tom Lefevre', '888.888.888-88', 'tom.lefevre@example.com', 'senha789', '1989-04-03', 1, '(11) 99999-8888', '2023-05-28', 2, '678stu'),
+  ('Louise Simon', '999.999.999-99', 'louise.simon@example.com', 'senhaabc', '1993-12-18', 1, '(11) 99999-9999', '2023-05-28', 1, '901vwx'),
+  ('Arthur Petit', '000.000.000-00', 'arthur.petit@example.com', 'senhadef', '1986-10-08', 1, '(11) 99999-0000', '2023-05-28', 2, '234yz');
 
 INSERT INTO TEMA (NOME)
 VALUES
@@ -55,7 +55,7 @@ VALUES
   ('Animais');
 
 
-INSERT INTO USUARIO_TEMAS (ID_USUARIO, ID_TEMA)
+INSERT INTO USUARIO_TEMA (ID_USUARIO, ID_TEMA)
 VALUES
   (1, 1),
   (1, 3),
@@ -137,7 +137,7 @@ VALUES
   ('Álbum 5', 'Fotos do evento 5', 2, 5);
 
 
-INSERT INTO IMAGEM (CAMINHO, DESCRICAO, TIPO, FK_ALBUM)
+INSERT INTO IMAGEM (CAMINHO, DESCRICAO, FORMATO, FK_ALBUM)
 VALUES
   ('caminho1.jpg', 'Foto 1', 'jpg', 1),
   ('caminho2.jpg', 'Foto 2', 'jpg', 1),
