@@ -87,24 +87,53 @@ DELIMITER ;
 CREATE VIEW vw_total_clientes_fotografos
 AS
 	SELECT
-		'Clientes' as Label, (SELECT COUNT(ID_USUARIO) FROM USUARIO WHERE TIPO_USUARIO LIKE 1) AS 'Quantidade'
+		'Clientes' as Label, (SELECT COUNT(ID_USUARIO) FROM USUARIO WHERE TIPO_USUARIO = 1) AS 'Quantidade'
 	UNION
     SELECT
-        'Fotógrafos' as Label, (SELECT COUNT(ID_USUARIO) FROM USUARIO WHERE TIPO_USUARIO LIKE 2) AS 'Quantidade';
+        'Fotógrafos' as Label, (SELECT COUNT(ID_USUARIO) FROM USUARIO WHERE TIPO_USUARIO = 2) AS 'Quantidade';
         
-CREATE VIEW vw_total_clientes_mes
+-- View retorna quantas sessões foram finalizadas e quantas foram canceladas
+CREATE VIEW vw_total_sessoes_finalizadas_canceladas
+AS
+	SELECT
+		'Convertidos' as Label, (SELECT COUNT(ID_EVENTO) FROM EVENTO WHERE STATUS_EVENTO LIKE 'Finalizado') AS 'Quantidade'
+	UNION
+    SELECT
+        'Interrompidos' as Label, (SELECT COUNT(ID_EVENTO) FROM EVENTO WHERE STATUS_EVENTO LIKE 'Cancelado') AS 'Quantidade';
+        
+-- View KPI 1 - Total usuários e usuários cadastrados no último mês
+CREATE VIEW vw_kpi_usuarios_mes
 AS 
 	SELECT 
-		'Clientes' as Label, (SELECT COUNT(ID_USUARIO) FROM USUARIO WHERE TIPO_USUARIO = 1) AS 'Quantidade'
+		'Total' as Label, (SELECT COUNT(ID_USUARIO) FROM USUARIO) AS 'Quantidade'
 	UNION 
     SELECT 
-		'Porcentagem' as Label, (SELECT COUNT(ID_USUARIO) FROM USUARIO WHERE DATEDIFF(CURDATE(), DATA_CADASTRO) <= 31);
+		'Mes' as Label, (SELECT COUNT(ID_USUARIO) FROM USUARIO WHERE DATEDIFF(CURDATE(), DATA_CADASTRO) <= 31)
+	UNION 
+    SELECT 
+		'MesPassado' as Label, (SELECT COUNT(ID_USUARIO) FROM USUARIO WHERE DATEDIFF(CURDATE(), DATA_CADASTRO) > 31 AND DATEDIFF(CURDATE(), DATA_CADASTRO) <= 62);
         
+-- View KPI 2 - Total de sessões de fotos realizadas        
 CREATE VIEW vw_total_sessoes_realizadas
 AS
 	SELECT 
-		'Sessões Realizadas' as Label, (SELECT COUNT(ID_EVENTO) FROM EVENTO WHERE STATUS_EVENTO = 'Finalizado');
-        
+		'SessoesRealizadas' as Label, (SELECT COUNT(ID_EVENTO) FROM EVENTO WHERE STATUS_EVENTO = 'Finalizado')
+	UNION
+    SELECT 
+		'SessoesRealizadasMes' as Label, (SELECT COUNT(ID_EVENTO) FROM EVENTO WHERE STATUS_EVENTO = 'Finalizado' AND DATEDIFF(CURDATE(), DATA_REALIZACAO) <= 31)
+	UNION
+    SELECT 
+		'SessoesRealizadasMesPassado' as Label, (SELECT COUNT(ID_EVENTO) FROM EVENTO WHERE STATUS_EVENTO = 'Finalizado' AND DATEDIFF(CURDATE(), DATA_REALIZACAO) > 31 AND DATEDIFF(CURDATE(), DATA_REALIZACAO) <= 62);
+
+-- View KPI 3 - Total de acessos          
 CREATE VIEW vw_acessos_mes
 AS
-	SELECT 'Acessos' as Label, (SELECT COUNT(ID_USUARIO) FROM USUARIO WHERE DATEDIFF(CURDATE(), ULTIMO_LOGIN) <= 31);
+	SELECT 
+		'Acessos' as Label, (SELECT COUNT(ID_USUARIO) FROM USUARIO WHERE ULTIMO_LOGIN > '1960-01-01')
+	UNION
+    SELECT 
+		'AcessosMes' as Label, (SELECT COUNT(ID_USUARIO) FROM USUARIO WHERE DATEDIFF(CURDATE(), ULTIMO_LOGIN) <= 31)
+	UNION
+    SELECT 
+		'AcessosMesPassado' as Label, (SELECT COUNT(ID_USUARIO) FROM USUARIO WHERE DATEDIFF(CURDATE(), ULTIMO_LOGIN) > 31 AND DATEDIFF(CURDATE(), ULTIMO_LOGIN) <= 62);
+	
