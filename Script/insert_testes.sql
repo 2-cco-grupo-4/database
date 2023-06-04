@@ -41,8 +41,6 @@ VALUES
   ('Nathan Wilson', '63646566676', 'nathan@example.com', 'password123', '1993-04-08', 1, '4445556666', '2023-05-28', 1, '678stu', NOW() - INTERVAL '28' DAY),
   ('Lauren Taylor', '66676869706', 'lauren@example.com', 'password456', '1997-07-15', 1, '7778889999', '2023-05-28', 2, '890vwx', NOW() - INTERVAL '29' DAY),
   ('Brandon Davis', '69707172776', 'brandon@example.com', 'password789', '1990-03-26', 1, '1112223333', '2023-05-28', 1, 'abc123', NOW() - INTERVAL '30' DAY);
-  
-  SELECT * FROM USUARIO;
 
 INSERT INTO TEMA (NOME)
 VALUES
@@ -114,9 +112,17 @@ VALUES
   ('2023-12-30', 'Cancelado', 5, 4, 1, 300.00),
   ('2024-01-05', 'Finalizado', 3, 5, 3, 700.00),
   ('2024-01-10', 'Proposta', 1, 1, 5, 450.00),
-  ('2024-01-15', 'Negociando', 5, 2, 2, 600.00);
-
-
+  ('2024-01-15', 'Negociando', 5, 2, 2, 600.00),
+  ('2023-03-30', 'Finalizado', 2, 3, 3, 900.00),
+  ('2023-01-05', 'Finalizado', 5, 4, 2, 350.00),
+  ('2022-12-10', 'Finalizado', 3, 5, 1, 750.00),
+  ('2023-04-15', 'Finalizado', 1, 1, 4, 400.00),
+  ('2023-05-20', 'Finalizado', 4, 2, 5, 550.00),
+  ('2023-05-25', 'Finalizado', 2, 3, 2, 800.00),
+  ('2023-01-30', 'Finalizado', 5, 4, 1, 300.00),
+  ('2024-03-05', 'Finalizado', 3, 5, 3, 700.00),
+  ('2024-05-10', 'Finalizado', 1, 1, 5, 450.00);
+      
 INSERT INTO ENDERECO (ESTADO, CIDADE, CEP, BAIRRO, LOGRADOURO, NUMERO, COMPLEMENTO, FK_EVENTO)
 VALUES
   ('São Paulo', 'São Paulo', '01234-567', 'Centro', 'Rua A', '123', 'Apto 4', 1),
