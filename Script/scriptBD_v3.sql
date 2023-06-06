@@ -1,8 +1,10 @@
-CREATE USER 'picme'@'localhost' IDENTIFIED BY 'picme123';
+CREATE USER 'picmeUser'@'localhost' IDENTIFIED BY 'picme123';
 DROP DATABASE picme;
 CREATE DATABASE picme;
-GRANT ALL PRIVILEGES ON picme.* TO 'wolmir'@'localhost';
+GRANT ALL PRIVILEGES ON picme.* TO 'picmeUser'@'localhost';
 USE picme;
+
+
 
 -- Criação da tabela Usuario
 CREATE TABLE USUARIO (
