@@ -124,6 +124,25 @@ VALUES
   ('2023-01-30', 'Finalizado', 5, 4, 2, 300.00),
   ('2024-03-05', 'Finalizado', 3, 5, 3, 700.00),
   ('2024-05-10', 'Finalizado', 3, 1, 5, 450.00);
+  
+INSERT INTO USUARIO (NOME, CPF, EMAIL, SENHA, DATA_NASCIMENTO, AUTENTICADO, CELULAR, DATA_CADASTRO, TIPO_USUARIO, TOKEN_SOLICITACAO, ULTIMO_LOGIN)
+VALUES
+  ('João Silva', '12345678901', 'joao@email.com', '$2a$12$axo/lw5G1O.WmrU0mbSyvuDn7TNwmc4j5OhRsyvEMarMLvTF3ISxK', '1990-01-01', 1, '9999999999', CURDATE(), 1, 'token123', '2023-03-01'),
+  ('Maria Santos', '98765432101', 'maria@email.com', '$2a$12$axo/lw5G1O.WmrU0mbSyvuDn7TNwmc4j5OhRsyvEMarMLvTF3ISxK', '1995-02-15', 1, '8888888888', CURDATE(), 2, 'token456', '2023-02-28'),
+  ('Pedro Oliveira', '54321678901', 'pedro@email.com', '$2a$12$axo/lw5G1O.WmrU0mbSyvuDn7TNwmc4j5OhRsyvEMarMLvTF3ISxK', '1988-08-20', 0, '7777777777', CURDATE(), 1, NULL, NULL),
+  ('Ana Souza', '98765432102', 'ana@email.com', '$2a$12$axo/lw5G1O.WmrU0mbSyvuDn7TNwmc4j5OhRsyvEMarMLvTF3ISxK', '1992-04-10', 1, '6666666666', CURDATE(), 1, 'token789', '2023-01-31'),
+  ('Lucas Santos', '12345098765', 'lucas@email.com', '$2a$12$axo/lw5G1O.WmrU0mbSyvuDn7TNwmc4j5OhRsyvEMarMLvTF3ISxK', '1993-11-25', 1, '5555555555', CURDATE(), 2, 'tokenabc', '2023-03-05'),
+  ('Élise Dupont', '111.111.111-11', 'elise.dupont@example.com', '$2a$12$axo/lw5G1O.WmrU0mbSyvuDn7TNwmc4j5OhRsyvEMarMLvTF3ISxK', '1990-05-15', 1, '(11) 99999-1111', CURDATE(), 1, 'abc123', '2023-01-28'),
+  ('Lucas Lefebvre', '222.222.222-22', 'lucas.lefebvre@example.com', '$2a$12$axo/lw5G1O.WmrU0mbSyvuDn7TNwmc4j5OhRsyvEMarMLvTF3ISxK', '1995-08-23', 1, '(11) 99999-2222', CURDATE(), 1, 'def456', '2023-01-30'),
+  ('Léa Martin', '333.333.333-33', 'lea.martin@example.com', '$2a$12$axo/lw5G1O.WmrU0mbSyvuDn7TNwmc4j5OhRsyvEMarMLvTF3ISxK', '1988-03-10', 1, '(11) 99999-3333', CURDATE(), 2, 'ghi789', '2023-03-15'),
+  ('Tom Lefevre', '888.888.888-88', 'tom.lefevre@example.com', '$2a$12$axo/lw5G1O.WmrU0mbSyvuDn7TNwmc4j5OhRsyvEMarMLvTF3ISxK', '1989-04-03', 1, '(11) 99999-8888', CURDATE(), 2, '678stu', '2023-01-27'),
+  ('Louise Simon', '999.999.999-99', 'louise.simon@example.com', '$2a$12$axo/lw5G1O.WmrU0mbSyvuDn7TNwmc4j5OhRsyvEMarMLvTF3ISxK', '1993-12-18', 1, '(11) 99999-9999', CURDATE(), 1, '890vwx', '2023-03-02');
+  
+INSERT INTO EVENTO (DATA_REALIZACAO, STATUS_EVENTO, FK_FOTOGRAFO, FK_TEMA, FK_CLIENTE, VALOR)
+VALUES
+  ('2023-06-10', 'Confirmado', 3, 3, 48, 500.00),
+  ('2023-07-05', 'Pendente', 3, 1, 52, 350.00),
+  ('2023-08-20', 'Confirmado', 5, 2, 45, 700.00);
       
 INSERT INTO ENDERECO (ESTADO, CIDADE, CEP, BAIRRO, LOGRADOURO, NUMERO, COMPLEMENTO, FK_EVENTO)
 VALUES
