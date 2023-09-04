@@ -66,7 +66,7 @@ VALUES
   (5, 4);
 
 
-INSERT INTO EVENTO (DATA_REALIZACAO, STATUS_EVENTO, FK_FOTOGRAFO, FK_TEMA, FK_CLIENTE, VALOR)
+INSERT INTO SESSAO (DATA_REALIZACAO, STATUS_SESSAO, FK_FOTOGRAFO, FK_TEMA, FK_CLIENTE, VALOR)
 VALUES
   ('2023-06-10', 'Confirmado', 3, 3, 2, 500.00),
   ('2023-07-05', 'Pendente', 3, 1, 3, 350.00),
@@ -138,13 +138,13 @@ VALUES
   ('Tom Lefevre', '888.888.888-88', 'tom.lefevre@example.com', '$2a$12$axo/lw5G1O.WmrU0mbSyvuDn7TNwmc4j5OhRsyvEMarMLvTF3ISxK', '1989-04-03', 1, '(11) 99999-8888', CURDATE(), 2, '678stu', '2023-01-27'),
   ('Louise Simon', '999.999.999-99', 'louise.simon@example.com', '$2a$12$axo/lw5G1O.WmrU0mbSyvuDn7TNwmc4j5OhRsyvEMarMLvTF3ISxK', '1993-12-18', 1, '(11) 99999-9999', CURDATE(), 1, '890vwx', '2023-03-02');
   
-INSERT INTO EVENTO (DATA_REALIZACAO, STATUS_EVENTO, FK_FOTOGRAFO, FK_TEMA, FK_CLIENTE, VALOR)
+INSERT INTO SESSAO (DATA_REALIZACAO, STATUS_SESSAO, FK_FOTOGRAFO, FK_TEMA, FK_CLIENTE, VALOR)
 VALUES
   ('2023-06-10', 'Confirmado', 3, 3, 48, 500.00),
   ('2023-07-05', 'Pendente', 3, 1, 52, 350.00),
   ('2023-08-20', 'Confirmado', 5, 2, 45, 700.00);
       
-INSERT INTO ENDERECO (ESTADO, CIDADE, CEP, BAIRRO, LOGRADOURO, NUMERO, COMPLEMENTO, FK_EVENTO)
+INSERT INTO ENDERECO (ESTADO, CIDADE, CEP, BAIRRO, LOGRADOURO, NUMERO, COMPLEMENTO, FK_SESSAO)
 VALUES
   ('São Paulo', 'São Paulo', '01234-567', 'Centro', 'Rua A', '123', 'Apto 4', 1),
   ('Rio de Janeiro', 'Rio de Janeiro', '98765-432', 'Copacabana', 'Avenida B', '456', NULL, 2),
@@ -155,11 +155,11 @@ VALUES
 
 INSERT INTO ALBUM (TITULO, DESCRICAO, FK_FOTOGRAFO, FK_TEMA)
 VALUES
-  ('Álbum 1', 'Fotos do evento 1', 2, 3),
-  ('Álbum 2', 'Fotos do evento 2', 2, 1),
-  ('Álbum 3', 'Fotos do evento 3', 5, 2),
-  ('Álbum 4', 'Fotos do evento 4', 5, 4),
-  ('Álbum 5', 'Fotos do evento 5', 2, 5);
+  ('Álbum 1', 'Fotos da sessão 1', 2, 3),
+  ('Álbum 2', 'Fotos da sessão 2', 2, 1),
+  ('Álbum 3', 'Fotos da sessão 3', 5, 2),
+  ('Álbum 4', 'Fotos da sessão 4', 5, 4),
+  ('Álbum 5', 'Fotos da sessão 5', 2, 5);
 
 
 INSERT INTO IMAGEM (CAMINHO, DESCRICAO, FORMATO, FK_ALBUM)
@@ -193,7 +193,7 @@ VALUES
   (6, 2);
 
 
-INSERT INTO INTERESSE_TAG (ID_TAG, ID_USUARIO)
+INSERT INTO USUARIO_TAG (ID_TAG, ID_USUARIO)
 VALUES
   (1, 1),
   (2, 1),
