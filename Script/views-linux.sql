@@ -4,10 +4,11 @@ SET lc_time_names = 'pt_BR';
 CREATE VIEW vw_clientes_acordo_1semana
 AS
 	SELECT
-		'Fecharam' as Label, (SELECT COUNT(DISTINCT id_usuario) FROM (SELECT id_usuario FROM usuario INNER JOIN evento ON usuario.id_usuario = evento.fk_cliente WHERE DATEDIFF(CURDATE(), data_cadastro) <= 7 AND tipo_usuario LIKE 1) AS ClientesImediatos) AS 'Quantidade'
-	UNION
-    SELECT
-        'Não Fecharam' as Label, (SELECT COUNT(DISTINCT id_usuario) FROM (SELECT id_usuario FROM usuario WHERE DATEDIFF(CURDATE(), data_cadastro) <= 7 AND tipo_usuario LIKE 1) AS clientes_semana) AS 'Quantidade';
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AS 'Mes',
+		'Fecharam' as Label, (SELECT COUNT(DISTINCT id_usuario) FROM (SELECT id_usuario FROM tb_usuario INNER JOIN tb_sessao ON tb_usuario.id_usuario = tb_sessao.fk_cliente INNER JOIN tb_log_sessao ON tb_log_sessao.id_log_sessao = tb_sessao.id_sessao WHERE DATEDIFF(tb_log_sessao.data_modificacao, tb_usuario.data_cadastro) <= 7 AND tipo_usuario LIKE 1 AND tb) AS ClientesImediatos) AS 'Quantidade',
+        'Não Fecharam' as Label, (SELECT COUNT(DISTINCT id_usuario) FROM (SELECT id_usuario FROM tb_usuario WHERE DATEDIFF(CURDATE(), data_cadastro) <= 7 AND tipo_usuario LIKE 1) AS clientes_semana) AS 'Quantidade';
+	
+        
  
 -- View retorna contagem de quantos contatos foram iniciados para cada tema cadastrado 
 CREATE VIEW vw_contagem_tema_contato
