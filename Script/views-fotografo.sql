@@ -1,55 +1,54 @@
 SET lc_time_names = 'pt_BR';
 
-
 -- View que retorna valor médio cobrado das sessões do fotográfo (média de todas as sessões já realizadas)
 CREATE VIEW vw_kpi_valor_medio_cobrado AS
 SELECT
-    u.id_usuario AS id_fotografo,
-    u.nome AS nome_fotografo,
-    AVG(p.valor) AS valor_medio_cobrado
+	tb_usuario.id_usuario as 'Fotografo',
+    AVG(tb_pagamento.valor) AS 'Media'
 FROM
-    tb_pagamento p
+    tb_pagamento
 INNER JOIN
-    tb_sessao s ON p.fk_sessao = s.id_sessao
+    tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao
 INNER JOIN
-    tb_usuario u ON s.fk_fotografo = u.id_usuario
-    
+    tb_usuario ON tb_sessao.fk_fotografo = tb_usuario.id_usuario
 WHERE tb_sessao.status_sessao = 'Finalizada'
-
 GROUP BY
-    u.id_usuario, u.nome;
+    tb_usuario.id_usuario;
+   
+SELECT * FROM tb_usuario;
+
+SELECT * FROM tb_sessao;
 
 -- View que retorna as sessões agendadas no mês atual do fotógrafo
 CREATE VIEW vw_kpi_sessoes_agendadas_mes AS
 SELECT
-    u.id_usuario AS id_fotografo,
-    u.nome AS nome_fotografo,
-    COUNT(*) AS total_sessoes_agendadas_mes
+    tb_usuario.id_usuario AS 'Fotografo',
+    COUNT(id_sessao) AS 'Total'
 FROM
-    tb_sessao s
+    tb_sessao
 INNER JOIN
-    tb_usuario u ON s.fk_fotografo = u.id_usuario
+    tb_usuario ON tb_sessao.fk_fotografo = tb_usuario.id_usuario
 WHERE
-    MONTH(s.data_realizacao) = MONTH(NOW())
+    MONTH(tb_sessao.data_realizacao) = MONTH(NOW())
 GROUP BY
-    u.id_usuario, u.nome;
+    tb_usuario.id_usuario;
     
     
 -- View que retorna as propostas recebidas no mês atual, não contabilizando as sessões realizadas e canceladas
 CREATE VIEW vw_kpi_propostas_recebidas_mes_atual AS
 SELECT
-    u.id_usuario AS id_fotografo,
-    u.nome AS nome_fotografo,
-    COUNT(*) AS total_propostas_recebidas_mes_atual
+    tb_usuario.id_usuario AS 'Fotografo',
+    MONTHNAME(NOW()),
+    -- Corrigir a partir daqui
+    (SELECT COUNT(id_sessao) AS 'Total' FROM tb_sessao INNER JOIN tb_usuario ON tb_sessao.fk_fotografo = tb_usuario.id_usuario WHERE MONTH(tb_sessao.data_realizacao) = MONTH(NOW()) AND tb_sessao.status_sessao != 'Realizada' AND  tb_sessao.status_sessao != 'Cancelada')
 FROM
-    tb_sessao s
+    tb_sessao
 INNER JOIN
-    tb_usuario u ON s.fk_fotografo = u.id_usuario
+    tb_usuario ON tb_sessao.fk_fotografo = tb_usuario.id_usuario
 WHERE
-    MONTH(s.data_realizacao) = MONTH(NOW()) AND
-    s.status_sessao != 'Realizada' AND  s.status_sessao != 'Cancelada'
+    
 GROUP BY
-    u.id_usuario, u.nome;
+    tb_usuario.id_usuario;
     
 
 -- View que retorna a variação do lucro no mês atual, comparando com o mês anterior
