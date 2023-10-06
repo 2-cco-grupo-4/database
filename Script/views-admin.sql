@@ -83,67 +83,67 @@ AS
 CREATE VIEW vw_total_clientes_fotografos
 AS
 	SELECT
-		'Clientes' as Label, (SELECT COUNT(id_usuario) FROM usuario WHERE tipo_usuario = 1) AS 'Quantidade'
+		'Clientes' as Label, (SELECT COUNT(id_usuario) FROM tb_usuario WHERE tipo_usuario = 1) AS 'Quantidade'
 	UNION
     SELECT
-        'Fotógrafos' as Label, (SELECT COUNT(id_usuario) FROM usuario WHERE tipo_usuario = 2) AS 'Quantidade';
+        'Fotógrafos' as Label, (SELECT COUNT(id_usuario) FROM tb_usuario WHERE tipo_usuario = 2) AS 'Quantidade';
         
 -- View retorna quantas sessões foram finalizadas e quantas foram canceladas
 CREATE VIEW vw_total_sessoes_finalizadas_canceladas
 AS
 	SELECT
-		'Convertidos' as Label, (SELECT COUNT(id_evento) FROM evento WHERE status_evento LIKE 'Finalizado') AS 'Quantidade'
+		'Convertidos' as Label, (SELECT COUNT(id_sessao) FROM tb_sessao WHERE status_sessao LIKE 'Finalizado') AS 'Quantidade'
 	UNION
     SELECT
-        'Interrompidos' as Label, (SELECT COUNT(id_evento) FROM evento WHERE status_evento LIKE 'Cancelado') AS 'Quantidade';
+        'Interrompidos' as Label, (SELECT COUNT(id_sessao) FROM tb_sessao WHERE status_sessao LIKE 'Cancelado') AS 'Quantidade';
         
 -- View que retorna a progressão da quantidade de usuários cadastrados nos últimos 6 meses
 CREATE VIEW vw_progressao_cadastro_usuarios
 AS
 	SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 6 MONTH)) AS 'Mes', COUNT(id_usuario) AS 'Quantidade' FROM usuario WHERE TIMESTAMPDIFF(MONTH, data_cadastro, CURDATE()) = 6
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 6 MONTH)) AS 'Mes', COUNT(id_usuario) AS 'Quantidade' FROM tb_usuario WHERE TIMESTAMPDIFF(MONTH, data_cadastro, CURDATE()) = 6
 	UNION
     SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 5 MONTH)) AS 'Mes', COUNT(id_usuario) AS 'Quantidade' FROM usuario WHERE TIMESTAMPDIFF(MONTH, data_cadastro, CURDATE()) = 5
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 5 MONTH)) AS 'Mes', COUNT(id_usuario) AS 'Quantidade' FROM tb_usuario WHERE TIMESTAMPDIFF(MONTH, data_cadastro, CURDATE()) = 5
 	UNION
     SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 4 MONTH)) AS 'Mes', COUNT(id_usuario) AS 'Quantidade' FROM usuario WHERE TIMESTAMPDIFF(MONTH, data_cadastro, CURDATE()) = 4
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 4 MONTH)) AS 'Mes', COUNT(id_usuario) AS 'Quantidade' FROM tb_usuario WHERE TIMESTAMPDIFF(MONTH, data_cadastro, CURDATE()) = 4
 	UNION
     SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 3 MONTH)) AS 'Mes', COUNT(id_usuario) AS 'Quantidade' FROM usuario WHERE TIMESTAMPDIFF(MONTH, data_cadastro, CURDATE()) = 3
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 3 MONTH)) AS 'Mes', COUNT(id_usuario) AS 'Quantidade' FROM tb_usuario WHERE TIMESTAMPDIFF(MONTH, data_cadastro, CURDATE()) = 3
 	UNION
     SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 2 MONTH)) AS 'Mes', COUNT(id_usuario) AS 'Quantidade' FROM usuario WHERE TIMESTAMPDIFF(MONTH, data_cadastro, CURDATE()) = 2
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 2 MONTH)) AS 'Mes', COUNT(id_usuario) AS 'Quantidade' FROM tb_usuario WHERE TIMESTAMPDIFF(MONTH, data_cadastro, CURDATE()) = 2
 	UNION
     SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS 'Mes', COUNT(id_usuario) AS 'Quantidade' FROM usuario WHERE TIMESTAMPDIFF(MONTH, data_cadastro, CURDATE()) = 1
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS 'Mes', COUNT(id_usuario) AS 'Quantidade' FROM tb_usuario WHERE TIMESTAMPDIFF(MONTH, data_cadastro, CURDATE()) = 1
 	UNION
 	SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AS 'Mes', COUNT(id_usuario) AS 'Quantidade' FROM usuario WHERE TIMESTAMPDIFF(MONTH, data_cadastro, CURDATE()) = 0;
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AS 'Mes', COUNT(id_usuario) AS 'Quantidade' FROM tb_usuario WHERE TIMESTAMPDIFF(MONTH, data_cadastro, CURDATE()) = 0;
         
 -- View que retorna a progressão da quantidade de eventos concluidos
 CREATE VIEW vw_progressao_sessoes_realizadas
 AS
 	SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 6 MONTH)) AS 'Mes', COUNT(id_evento) AS 'Quantidade' FROM evento WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 6 AND status_evento = 'Finalizado'
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 6 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 6 AND status_sessao = 'Finalizado'
 	UNION
     SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 5 MONTH)) AS 'Mes', COUNT(id_evento) AS 'Quantidade' FROM evento WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 5 AND status_evento = 'Finalizado'
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 5 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 5 AND status_sessao = 'Finalizado'
 	UNION
     SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 4 MONTH)) AS 'Mes', COUNT(id_evento) AS 'Quantidade' FROM evento WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 4 AND status_evento = 'Finalizado'
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 4 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 4 AND status_sessao = 'Finalizado'
 	UNION
     SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 3 MONTH)) AS 'Mes', COUNT(id_evento) AS 'Quantidade' FROM evento WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 3 AND status_evento = 'Finalizado'
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 3 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 3 AND status_sessao = 'Finalizado'
 	UNION
     SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 2 MONTH)) AS 'Mes', COUNT(id_evento) AS 'Quantidade' FROM evento WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 2 AND status_evento = 'Finalizado'
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 2 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 2 AND status_sessao = 'Finalizado'
 	UNION
     SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS 'Mes', COUNT(id_evento) AS 'Quantidade' FROM evento WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 1 AND status_evento = 'Finalizado'
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 1 AND status_sessao = 'Finalizado'
 	UNION
 	SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AS 'Mes', COUNT(id_evento) AS 'Quantidade' FROM evento WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 0 AND status_evento = 'Finalizado';
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 0 AND status_sessao = 'Finalizado';
         
 -- View KPI 1 - Usuários cadastros no mês atual e no último mês
 CREATE VIEW vw_kpi_usuarios_mes

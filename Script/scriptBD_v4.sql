@@ -68,6 +68,7 @@ CREATE TABLE tb_imagem (
   permalink VARCHAR(500),
   caption VARCHAR(100),
   media_type VARCHAR(5),
+  origem_imagem VARCHAR(4),
   updated_at DATETIME,
   fk_album BIGINT,
   FOREIGN KEY (fk_album) REFERENCES tb_album(id_album)
