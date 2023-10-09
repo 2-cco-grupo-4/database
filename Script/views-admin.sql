@@ -2,6 +2,8 @@ SET lc_time_names = 'pt_BR';
 
 USE PICME;
 
+DROP VIEW VW_CLIENTES_IMEDIATOS_MES;
+
 SELECT * FROM VW_CLIENTES_IMEDIATOS_MES VCIM;
 
 -- View retorna quantos clientes 'imediatos' tivemos do mês, ou seja, quando clientes que se cadastraram e em menos de 1 semana criaram uma sessão
@@ -49,6 +51,8 @@ AS
 		tb_tema ON tb_sessao.fk_tema = tb_tema.id_tema
 	GROUP BY
 		Tema;
+	
+SELECT * FROM TB_SESSAO;
 
         
 -- View que retorna contagem de usuario do tipo Cliente separados por faixa etária

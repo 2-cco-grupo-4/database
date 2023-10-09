@@ -16,17 +16,19 @@ CREATE TABLE tb_usuario (
   cidade_preferencia VARCHAR(150),
   estado_preferencia VARCHAR(150),
   autenticado TINYINT,
-  INDEX(cpf, email)
+  INDEX(cpf, email, nome)
 );
 
 CREATE TABLE tb_tag (
   id_tag BIGINT PRIMARY KEY AUTO_INCREMENT,
-  nome VARCHAR(100)
+  nome VARCHAR(100),
+  INDEX(nome)
 );
 
 CREATE TABLE tb_tema (
   id_tema BIGINT PRIMARY KEY AUTO_INCREMENT,
-  nome VARCHAR(50)
+  nome VARCHAR(50),
+  INDEX(nome)
 );
 
 CREATE TABLE tb_usuario_tag (
@@ -44,7 +46,8 @@ CREATE TABLE tb_album (
   fk_fotografo BIGINT,
   fk_tema BIGINT,
   FOREIGN KEY (fk_fotografo) REFERENCES tb_usuario(id_usuario),
-  FOREIGN KEY (fk_tema) REFERENCES tb_tema(id_tema)
+  FOREIGN KEY (fk_tema) REFERENCES tb_tema(id_tema),
+  INDEX(titulo)
 );
 
 CREATE TABLE tb_log_acessos (
@@ -59,7 +62,8 @@ CREATE TABLE tb_log_pesquisas (
   termo_busca VARCHAR(150),
   data_pesquisa DATETIME,
   fk_usuario BIGINT,
-  FOREIGN KEY (fk_usuario) REFERENCES tb_usuario(id_usuario)
+  FOREIGN KEY (fk_usuario) REFERENCES tb_usuario(id_usuario),
+  INDEX(termo_busca)
 );
 
 CREATE TABLE tb_imagem (
@@ -100,7 +104,8 @@ CREATE TABLE tb_sessao (
   created_at DATETIME,
   FOREIGN KEY (fk_fotografo) REFERENCES tb_usuario(id_usuario),
   FOREIGN KEY (fk_tema) REFERENCES tb_tema(id_tema),
-  FOREIGN KEY (fk_cliente) REFERENCES tb_usuario(id_usuario)
+  FOREIGN KEY (fk_cliente) REFERENCES tb_usuario(id_usuario),
+  INDEX(data_realizacao)
 );
 
 CREATE TABLE tb_endereco (
@@ -113,7 +118,8 @@ CREATE TABLE tb_endereco (
   numero VARCHAR(10),
   complemento VARCHAR(30),
   fk_sessao BIGINT,
-  FOREIGN KEY (fk_sessao) REFERENCES tb_sessao(id_sessao)
+  FOREIGN KEY (fk_sessao) REFERENCES tb_sessao(id_sessao),
+  INDEX(estado, cidade)
 );
 
 CREATE TABLE tb_pagamento (
@@ -122,7 +128,8 @@ CREATE TABLE tb_pagamento (
   valor DECIMAL,
   parcelas INT,
   fk_sessao BIGINT,
-  FOREIGN KEY (fk_sessao) REFERENCES tb_sessao(id_sessao)
+  FOREIGN KEY (fk_sessao) REFERENCES tb_sessao(id_sessao),
+  INDEX(forma, valor)
 );
 
 CREATE TABLE tb_avaliacao (
