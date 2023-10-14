@@ -15,7 +15,7 @@ CREATE TABLE tb_usuario (
   email VARCHAR(256) NOT NULL,
   senha VARCHAR(100) NOT NULL,
   data_nascimento DATE NOT NULL,
-  celular VARCHAR(20),
+  celular VARCHAR(20) NOT NULL,
   data_cadastro DATETIME NOT NULL,
   tipo_usuario TINYINT NOT NULL,
   token_solicitacao VARCHAR(200),
@@ -48,7 +48,7 @@ CREATE TABLE tb_usuario_tag (
 CREATE TABLE tb_album (
   id_album BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   titulo VARCHAR(100) NOT NULL,
-  descricao VARCHAR(100) NOT NULL,
+  descricao VARCHAR(100),
   fk_fotografo BIGINT NOT NULL,
   fk_tema BIGINT NOT NULL,
   FOREIGN KEY (fk_fotografo) REFERENCES tb_usuario(id_usuario),
