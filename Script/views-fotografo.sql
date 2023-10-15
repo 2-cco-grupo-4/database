@@ -13,7 +13,7 @@ INNER JOIN
     tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao
 INNER JOIN
     tb_usuario ON tb_sessao.fk_fotografo = tb_usuario.id_usuario
-WHERE tb_sessao.status_sessao = 'Finalizada'
+WHERE tb_sessao.status_sessao = 'Realizada'
 GROUP BY
     tb_usuario.id_usuario;
 
@@ -30,8 +30,6 @@ WHERE
     MONTH(tb_sessao.created_at) = MONTH(NOW())
 GROUP BY
     tb_usuario.id_usuario;
-   
-   use PICME;
     
     
 -- View que retorna as propostas recebidas no mês atual, não contabilizando as sessões realizadas e canceladas
@@ -149,4 +147,3 @@ SELECT
 	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 0 MONTH))) AS 'Total',
 	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AND status_sessao = 'Cancelada') AS 'Interrompidas',
 	id_usuario as 'User' FROM tb_usuario;
-
