@@ -1,12 +1,12 @@
 import random
 
-titulos = ["Álbum de Família", "Viagem dos Sonhos", "Momentos Especiais", "Retratos da Natureza", "Aventuras pelo Mundo"]
+titulos = ["Casamento da filha", "Aniversario do cunhado", "Momentos Especiais", "Retratos do evento", "Aventuras pelo Mundo"]
 
-descricoes = ["Um álbum repleto de memórias incríveis.", "Registros dos melhores momentos da vida.", "Explorando a beleza do mundo através das lentes.", "Momentos únicos capturados para a eternidade."]
+descricoes = ["Um álbum repleto de memórias incríveis.", "Registros dos melhores momentos da vida.", "Melhor dia da minha vida", "Momentos únicos capturados para a eternidade."]
 
 ids_fotografos = list(range(1, 51))
 
-ids_temas = list(range(1, 16))
+ids_temas = list(range(1, 7)) 
 
 with open("dadosAlbum.txt", "w") as arquivo:
     for fotografo in ids_fotografos:
@@ -16,5 +16,5 @@ with open("dadosAlbum.txt", "w") as arquivo:
             titulo = random.choice(titulos)
             descricao = random.choice(descricoes)
             
-            comando = f"INSERT INTO ALBUM (TITULO, DESCRICAO, FK_FOTOGRAFO, FK_TEMA) VALUES ('{titulo}', '{descricao}', {fotografo}, {tema});\n"
+            comando = f"INSERT INTO tb_album (titulo, descricao, fk_fotografo, fk_tema) VALUES ('{titulo}', '{descricao}', {fotografo}, {tema});\n"
             arquivo.write(comando)

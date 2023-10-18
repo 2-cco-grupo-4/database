@@ -1,7 +1,7 @@
 import random
 
 def generate_insert(image_id, tag_id):
-    return f"INSERT INTO TAG_IMAGEM (ID_IMAGEM, ID_TAG) VALUES ({image_id}, {tag_id});"
+    return f"INSERT INTO tb_tag_imagem (id_imagem, id_tag) VALUES ({image_id}, {tag_id});"
 
 def generate_random_data(num_images, num_tags):
     data = []
@@ -16,8 +16,8 @@ def write_to_file(filename, data):
         for insert in data:
             file.write(insert + '\n')
 
-num_images = 300
-num_tags = 15
+num_images = 100
+num_tags = 8
 filename = 'dadosTagImagem.txt'
 
 random_data = generate_random_data(num_images, num_tags)

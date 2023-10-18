@@ -3,12 +3,12 @@ import random
 
 fake = Faker('pt_BR')
 
-id_eventos = list(range(1, 51))
+id_sessoes = list(range(1, 31))
 
-num_inserts = 50 
+num_inserts = 30
 inserts = []
 
-for evento_id in id_eventos:
+for sessao_id in id_sessoes:
     estado = fake.estado()
     cidade = fake.city()
     cep = fake.postcode()
@@ -17,8 +17,8 @@ for evento_id in id_eventos:
     numero = str(random.randint(1, 999))
     complemento = 'null'
 
-    insert = f"INSERT INTO ENDERECO (ESTADO, CIDADE, CEP, BAIRRO, LOGRADOURO, NUMERO, COMPLEMENTO, FK_EVENTO) " \
-             f"VALUES ('{estado}', '{cidade}', '{cep}', '{bairro}', '{logradouro}', '{numero}', '{complemento}', {evento_id});"
+    insert = f"INSERT INTO tb_endereco (estado, cidade, cep, bairro, logradouro, numero, complemento, fk_sessao) " \
+             f"VALUES ('{estado}', '{cidade}', '{cep}', '{bairro}', '{logradouro}', '{numero}', {complemento}, {sessao_id});"
     inserts.append(insert)
 
 with open("dadosEndereco.txt", "w") as file:

@@ -1,20 +1,18 @@
 import random
 from faker import Faker
 
-
 def gerar_cpf():
-    cpf = [random.randint(0, 9) for _ in range(9)]
+    cpf = [str(random.randint(0, 9)) for _ in range(9)]
 
     # Gera o primeiro dígito verificador
-    soma = sum(x * y for x, y in zip(cpf, range(10, 1, -1)))
-    cpf.append((11 - soma % 11) % 10)
+    soma = sum(int(x) * y for x, y in zip(cpf, range(10, 1, -1)))
+    cpf.append(str((11 - soma % 11) % 10))
 
     # Gera o segundo dígito verificador
-    soma = sum(x * y for x, y in zip(cpf, range(11, 1, -1)))
-    cpf.append((11 - soma % 11) % 10)
+    soma = sum(int(x) * y for x, y in zip(cpf, range(11, 1, -1)))
+    cpf.append(str((11 - soma % 11) % 10))
 
-    return ''.join(map(str, cpf))
-
+    return ''.join(cpf)
 
 def gerar_dados_usuario():
     fake = Faker("pt_BR")
@@ -22,16 +20,16 @@ def gerar_dados_usuario():
     cpf = gerar_cpf()
     email = fake.email()
     senha = fake.password()
-    data_nascimento = fake.date_of_birth(minimum_age=18, maximum_age=90)
-    autenticado = random.choice([True, False])
+    data_nascimento = fake.date_of_birth(minimum_age=18, maximum_age=50)
+    autenticado = random.choice([1, 0])
     celular = fake.phone_number()
-    data_cadastro = fake.date_between(start_date='-1y', end_date='today')
+    data_cadastro = fake.date_time_between(start_date='-1y', end_date='now')
     tipo_usuario = random.choice([1, 2])
     token_solicitacao = fake.uuid4()
-    ultimo_login = fake.date_between(start_date='-1y', end_date='today')
-
-    return (nome, cpf, email, senha, data_nascimento, autenticado, celular, data_cadastro, tipo_usuario, token_solicitacao, ultimo_login)
-
+    cidade_preferencia = fake.city()
+    estado_preferencia = fake.state()
+    
+    return (nome, cpf, email, senha, data_nascimento, celular, data_cadastro, tipo_usuario, token_solicitacao, cidade_preferencia, estado_preferencia, autenticado)
 
 def gerar_queries_insert(num_queries):
     queries = []
@@ -39,13 +37,12 @@ def gerar_queries_insert(num_queries):
     for _ in range(num_queries):
         dados_usuario = gerar_dados_usuario()
 
-        query = "INSERT INTO USUARIO (NOME, CPF, EMAIL, SENHA, DATA_NASCIMENTO, AUTENTICADO, CELULAR, DATA_CADASTRO, TIPO_USUARIO, TOKEN_SOLICITACAO, ULTIMO_LOGIN) " \
-                f"VALUES ('{dados_usuario[0]}', '{dados_usuario[1]}', '{dados_usuario[2]}', '{dados_usuario[3]}', '{dados_usuario[4]}', {int(dados_usuario[5])}, '{dados_usuario[6]}', '{dados_usuario[7]}', {dados_usuario[8]}, '{dados_usuario[9]}', '{dados_usuario[10]}');"
+        query = "INSERT INTO tb_usuario (nome, cpf, email, senha, data_nascimento, celular, data_cadastro, tipo_usuario, token_solicitacao, cidade_preferencia, estado_preferencia, autenticado) " \
+                f"VALUES ('{dados_usuario[0]}', '{dados_usuario[1]}', '{dados_usuario[2]}', '{dados_usuario[3]}', '{dados_usuario[4]}', '{dados_usuario[5]}', '{dados_usuario[6]}', {dados_usuario[7]}, '{dados_usuario[8]}', '{dados_usuario[9]}', '{dados_usuario[10]}');"
 
         queries.append(query)
 
     return queries
-
 
 def salvar_queries_em_arquivo(queries, nome_arquivo):
     with open(nome_arquivo, 'w') as arquivo:
@@ -54,6 +51,5 @@ def salvar_queries_em_arquivo(queries, nome_arquivo):
 
     print(f"As queries foram salvas no arquivo '{nome_arquivo}'.")
 
-
 queries = gerar_queries_insert(50)
-salvar_queries_em_arquivo(queries, 'queries_insert.txt')
+salvar_queries_em_arquivo(queries, 'dadosUsuario.txt')

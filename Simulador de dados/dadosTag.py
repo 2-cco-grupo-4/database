@@ -1,22 +1,15 @@
 nomes = [
     "Retratos",
-    "Paisagens",
     "Natureza",
     "Moda",
-    "Vida Selvagem",
-    "Arquitetura",
-    "Street Photography",
-    "Viagem",
+    "Festa",
     "Evento",
-    "Produto",
-    "Fotojornalismo",
     "Casamento",
-    "Esportes",
-    "Aerea",
-    "Subaquatica"
+    "Preto e Branco",
+    "Igreja"
 ]
 
 with open('dadosTag.txt', 'w') as file:
     for i, nome in enumerate(nomes, start=1):
-        insert = f"INSERT INTO TAG (ID_TAG, NOME) VALUES ({i}, '{nome}');"
+        insert = f"INSERT INTO tb_tag (nome) VALUES ('{nome}');"
         file.write(insert + '\n')
