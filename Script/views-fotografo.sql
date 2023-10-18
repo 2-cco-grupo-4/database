@@ -85,9 +85,8 @@ INNER JOIN
 INNER JOIN
 	tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo
 WHERE
-    tb_sessao.status_sessao = 'Realizada'
-GROUP BY
-    User, Tema;
+    tb_sessao.status_sessao = 'Realizada';
+  
    
 DROP VIEW vw_media_avaliacao_por_tema;
       
