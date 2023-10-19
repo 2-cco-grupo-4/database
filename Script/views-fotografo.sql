@@ -13,7 +13,7 @@ INNER JOIN
     tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao
 INNER JOIN
     tb_usuario ON tb_sessao.fk_fotografo = tb_usuario.id_usuario
-WHERE tb_sessao.status_sessao = 'Finalizada'
+WHERE tb_sessao.status_sessao = 'Realizada'
 GROUP BY
     tb_usuario.id_usuario;
 
@@ -30,8 +30,6 @@ WHERE
     MONTH(tb_sessao.created_at) = MONTH(NOW())
 GROUP BY
     tb_usuario.id_usuario;
-   
-   use PICME;
     
     
 -- View que retorna as propostas recebidas no mês atual, não contabilizando as sessões realizadas e canceladas
@@ -45,9 +43,9 @@ SELECT
     (SELECT COUNT(id_sessao) AS 'Total' FROM tb_sessao INNER JOIN tb_usuario ON tb_sessao.fk_fotografo = tb_usuario.id_usuario WHERE MONTH(tb_sessao.created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AND tb_sessao.status_sessao != 'Realizada' AND  tb_sessao.status_sessao != 'Cancelada') as 'MesAnteriorTotal'
 FROM
     tb_sessao
-inner join
+INNER JOIN
 	tb_usuario
-on
+ON
 	tb_usuario.id_usuario = tb_sessao.fk_fotografo
 GROUP BY
     tb_usuario.id_usuario;
@@ -73,80 +71,78 @@ GROUP BY
     
     
 -- View que retorna a média de avaliação por tema
-
 CREATE VIEW vw_media_avaliacao_por_tema AS
 SELECT
-    tb_tema.id_tema,
-    tb_tema.nome AS nome_tema,
-    AVG(tb_avaliacao.nota) AS 'AvaliacaoMedia'
+    tb_tema.nome AS 'Tema',
+    AVG(tb_avaliacao.nota) AS 'Media',
+    tb_usuario.id_usuario AS 'User'
 FROM
     tb_avaliacao
 INNER JOIN
     tb_sessao ON tb_avaliacao.fk_sessao = tb_sessao.id_sessao
 INNER JOIN
     tb_tema ON tb_sessao.fk_tema = tb_tema.id_tema
+INNER JOIN
+	tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo
 WHERE
-    tb_sessao.status_sessao = 'Realizada'
-GROUP BY
-    tb_tema.id_tema, tb_tema.nome;
-    
-    
+    tb_sessao.status_sessao = 'Realizada';
+  
+   
+DROP VIEW vw_media_avaliacao_por_tema;
+      
 -- View que retorna a variação de lucro nos últimos meses
 CREATE VIEW vw_variacao_lucro_ultimos_meses AS
 SELECT
-    tb_usuario.id_usuario AS id_fotografo,
-    tb_usuario.nome AS nome_fotografo,
-    (
-        SELECT SUM(tb_pagamento.valor)
-        FROM tb_pagamento
-        INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao
-        WHERE
-            tb_sessao.fk_fotografo = tb_usuario.id_usuario AND
-            MONTH(tb_sessao.data_realizacao) = MONTH(NOW())
-    ) AS lucro_mes_atual,
-    (
-        SELECT SUM(tb_pagamento.valor)
-        FROM tb_pagamento
-        INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao
-        WHERE
-            tb_sessao.fk_fotografo = tb_usuario.id_usuario AND
-            MONTH(tb_sessao.data_realizacao) = MONTH(NOW()) - 1
-    ) AS lucro_mes_1_antes,
-    (
-        SELECT SUM(tb_pagamento.valor)
-        FROM tb_pagamento
-        INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao
-        WHERE
-            tb_sessao.fk_fotografo = tb_usuario.id_usuario AND
-            MONTH(tb_sessao.data_realizacao) = MONTH(NOW()) - 2
-    ) AS lucro_mes_2_antes,
-    (
-        SELECT SUM(tb_pagamento.valor)
-        FROM tb_pagamento
-        INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao
-        WHERE
-            tb_sessao.fk_fotografo = tb_usuario.id_usuario AND
-            MONTH(tb_sessao.data_realizacao) = MONTH(NOW()) - 3
-    ) AS lucro_mes_3_antes,
-    (
-        SELECT SUM(tb_pagamento.valor)
-        FROM tb_pagamento
-        INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao
-        WHERE
-            tb_sessao.fk_fotografo = tb_usuario.id_usuario AND
-            MONTH(tb_sessao.data_realizacao) = MONTH(NOW()) - 4
-    ) AS lucro_mes_4_antes
-FROM
-    tb_usuario;
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 4 MONTH)) AS 'Mes',
+	(SELECT SUM(tb_pagamento.valor) FROM tb_pagamento INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao WHERE tb_sessao.fk_fotografo = tb_usuario.id_usuario AND MONTH(tb_sessao.data_realizacao) = MONTH(NOW()) - 4) AS Lucro,
+	id_usuario as 'User' FROM tb_usuario
+UNION
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 3 MONTH)) AS 'Mes',
+	(SELECT SUM(tb_pagamento.valor) FROM tb_pagamento INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao WHERE tb_sessao.fk_fotografo = tb_usuario.id_usuario AND MONTH(tb_sessao.data_realizacao) = MONTH(NOW()) - 3) AS Lucro,
+	id_usuario as 'User' FROM tb_usuario
+UNION
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 2 MONTH)) AS 'Mes',
+	(SELECT SUM(tb_pagamento.valor) FROM tb_pagamento INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao WHERE tb_sessao.fk_fotografo = tb_usuario.id_usuario AND MONTH(tb_sessao.data_realizacao) = MONTH(NOW()) - 2) AS Lucro,
+	id_usuario as 'User' FROM tb_usuario
+UNION
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS 'Mes',
+    (SELECT SUM(tb_pagamento.valor) FROM tb_pagamento INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao WHERE tb_sessao.fk_fotografo = tb_usuario.id_usuario AND MONTH(tb_sessao.data_realizacao) = MONTH(NOW()) - 1) AS Lucro,
+	id_usuario as 'User' FROM tb_usuario
+UNION
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AS 'Mes',
+    (SELECT SUM(tb_pagamento.valor) FROM tb_pagamento INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao WHERE tb_sessao.fk_fotografo = tb_usuario.id_usuario AND MONTH(tb_sessao.data_realizacao) = MONTH(NOW())) AS Lucro,
+	id_usuario as 'User' FROM tb_usuario;
 
-
-    
-
-
-
-    
-    
-
-
-
-
+-- View que retorna a taxa de conversão / interrupções de conversas do fotógrafo nos últimos 4 meses
+CREATE VIEW vw_contatos_convertidos_sessao AS
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 3 MONTH)) AS 'Mes',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 3 MONTH)) AND status_sessao != 'Cancelada') AS 'Convertidas',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 3 MONTH))) AS 'Total',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 3 MONTH)) AND status_sessao = 'Cancelada') AS 'Interrompidas',
+	id_usuario as 'User' FROM tb_usuario
+UNION
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 2 MONTH)) AS 'Mes',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 2 MONTH)) AND status_sessao != 'Cancelada') AS 'Convertidas',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 2 MONTH))) AS 'Total',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 2 MONTH)) AND status_sessao = 'Cancelada') AS 'Interrompidas',
+	id_usuario as 'User' FROM tb_usuario
+UNION
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS 'Mes',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AND status_sessao != 'Cancelada') AS 'Convertidas',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH))) AS 'Total',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AND status_sessao = 'Cancelada') AS 'Interrompidas',
+	id_usuario as 'User' FROM tb_usuario
+UNION
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AS 'Mes',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AND status_sessao != 'Cancelada') AS 'Convertidas',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 0 MONTH))) AS 'Total',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AND status_sessao = 'Cancelada') AS 'Interrompidas',
+	id_usuario as 'User' FROM tb_usuario;

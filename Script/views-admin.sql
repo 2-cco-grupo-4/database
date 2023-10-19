@@ -10,15 +10,15 @@ SELECT * FROM VW_CLIENTES_IMEDIATOS_MES VCIM;
 CREATE VIEW vw_clientes_imediatos_mes
 AS
 	SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AS 'Mes',
-		(SELECT COUNT(DISTINCT id_usuario) FROM (SELECT id_usuario FROM tb_usuario INNER JOIN tb_sessao ON tb_usuario.id_usuario = tb_sessao.fk_cliente WHERE DATEDIFF(tb_usuario.data_cadastro, tb_sessao.created_at) <= 7 AND tipo_usuario LIKE 1 AND MONTHNAME(tb_sessao.created_at) LIKE MONTHNAME(DATE_SUB(NOW(), INTERVAL 0 MONTH))) AS ClientesImediatos) AS 'Agendaram',
-        (SELECT COUNT(DISTINCT id_usuario) FROM tb_usuario WHERE MONTH(tb_usuario.data_cadastro) = MONTH(NOW()) AND tipo_usuario = 1) AS 'Total',
-        (SELECT Total - Agendaram) AS 'Nao Agendaram'
-     UNION
-     SELECT
-      	MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS 'Mes',
-		(SELECT COUNT(DISTINCT id_usuario) FROM (SELECT id_usuario FROM tb_usuario INNER JOIN tb_sessao ON tb_usuario.id_usuario = tb_sessao.fk_cliente WHERE DATEDIFF(tb_usuario.data_cadastro, tb_sessao.created_at) <= 7 AND tipo_usuario LIKE 1 AND MONTHNAME(tb_sessao.created_at) LIKE MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH))) AS ClientesImediatos) AS 'Agendaram',
-        (SELECT COUNT(DISTINCT id_usuario) FROM tb_usuario WHERE MONTH(tb_usuario.data_cadastro) = (MONTH(NOW()) - 1) AND tipo_usuario = 1) AS 'Total',
+	    MONTHNAME(DATE_SUB(NOW(), INTERVAL 4 MONTH)) AS 'Mes',
+		(SELECT COUNT(DISTINCT id_usuario) FROM (SELECT id_usuario FROM tb_usuario INNER JOIN tb_sessao ON tb_usuario.id_usuario = tb_sessao.fk_cliente WHERE DATEDIFF(tb_usuario.data_cadastro, tb_sessao.created_at) <= 7 AND tipo_usuario LIKE 1 AND MONTHNAME(tb_sessao.created_at) LIKE MONTHNAME(DATE_SUB(NOW(), INTERVAL 4 MONTH))) AS ClientesImediatos) AS 'Agendaram',
+	    (SELECT COUNT(DISTINCT id_usuario) FROM tb_usuario WHERE MONTH(tb_usuario.data_cadastro) = (MONTH(NOW()) - 4) AND tipo_usuario = 1) AS 'Total',
+	    (SELECT Total - Agendaram) AS 'Nao Agendaram'
+	UNION
+	SELECT
+      	MONTHNAME(DATE_SUB(NOW(), INTERVAL 3 MONTH)) AS 'Mes',
+		(SELECT COUNT(DISTINCT id_usuario) FROM (SELECT id_usuario FROM tb_usuario INNER JOIN tb_sessao ON tb_usuario.id_usuario = tb_sessao.fk_cliente WHERE DATEDIFF(tb_usuario.data_cadastro, tb_sessao.created_at) <= 7 AND tipo_usuario LIKE 1 AND MONTHNAME(tb_sessao.created_at) LIKE MONTHNAME(DATE_SUB(NOW(), INTERVAL 3 MONTH))) AS ClientesImediatos) AS 'Agendaram',
+        (SELECT COUNT(DISTINCT id_usuario) FROM tb_usuario WHERE MONTH(tb_usuario.data_cadastro) = (MONTH(NOW()) - 3) AND tipo_usuario = 1) AS 'Total',
         (SELECT Total - Agendaram) AS 'Nao Agendaram'
      UNION
      SELECT
@@ -28,16 +28,18 @@ AS
        	(SELECT Total - Agendaram) AS 'Nao Agendaram'
      UNION
      SELECT
-      	MONTHNAME(DATE_SUB(NOW(), INTERVAL 3 MONTH)) AS 'Mes',
-		(SELECT COUNT(DISTINCT id_usuario) FROM (SELECT id_usuario FROM tb_usuario INNER JOIN tb_sessao ON tb_usuario.id_usuario = tb_sessao.fk_cliente WHERE DATEDIFF(tb_usuario.data_cadastro, tb_sessao.created_at) <= 7 AND tipo_usuario LIKE 1 AND MONTHNAME(tb_sessao.created_at) LIKE MONTHNAME(DATE_SUB(NOW(), INTERVAL 3 MONTH))) AS ClientesImediatos) AS 'Agendaram',
-        (SELECT COUNT(DISTINCT id_usuario) FROM tb_usuario WHERE MONTH(tb_usuario.data_cadastro) = (MONTH(NOW()) - 3) AND tipo_usuario = 1) AS 'Total',
+      	MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS 'Mes',
+		(SELECT COUNT(DISTINCT id_usuario) FROM (SELECT id_usuario FROM tb_usuario INNER JOIN tb_sessao ON tb_usuario.id_usuario = tb_sessao.fk_cliente WHERE DATEDIFF(tb_usuario.data_cadastro, tb_sessao.created_at) <= 7 AND tipo_usuario LIKE 1 AND MONTHNAME(tb_sessao.created_at) LIKE MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH))) AS ClientesImediatos) AS 'Agendaram',
+        (SELECT COUNT(DISTINCT id_usuario) FROM tb_usuario WHERE MONTH(tb_usuario.data_cadastro) = (MONTH(NOW()) - 1) AND tipo_usuario = 1) AS 'Total',
         (SELECT Total - Agendaram) AS 'Nao Agendaram'
-     UNION
-     SELECT
-      	MONTHNAME(DATE_SUB(NOW(), INTERVAL 4 MONTH)) AS 'Mes',
-		(SELECT COUNT(DISTINCT id_usuario) FROM (SELECT id_usuario FROM tb_usuario INNER JOIN tb_sessao ON tb_usuario.id_usuario = tb_sessao.fk_cliente WHERE DATEDIFF(tb_usuario.data_cadastro, tb_sessao.created_at) <= 7 AND tipo_usuario LIKE 1 AND MONTHNAME(tb_sessao.created_at) LIKE MONTHNAME(DATE_SUB(NOW(), INTERVAL 4 MONTH))) AS ClientesImediatos) AS 'Agendaram',
-        (SELECT COUNT(DISTINCT id_usuario) FROM tb_usuario WHERE MONTH(tb_usuario.data_cadastro) = (MONTH(NOW()) - 4) AND tipo_usuario = 1) AS 'Total',
-        (SELECT Total - Agendaram) AS 'Nao Agendaram';
+    UNION
+	SELECT
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AS 'Mes',
+		(SELECT COUNT(DISTINCT id_usuario) FROM (SELECT id_usuario FROM tb_usuario INNER JOIN tb_sessao ON tb_usuario.id_usuario = tb_sessao.fk_cliente WHERE DATEDIFF(tb_usuario.data_cadastro, tb_sessao.created_at) <= 7 AND tipo_usuario LIKE 1 AND MONTHNAME(tb_sessao.created_at) LIKE MONTHNAME(DATE_SUB(NOW(), INTERVAL 0 MONTH))) AS ClientesImediatos) AS 'Agendaram',
+        (SELECT COUNT(DISTINCT id_usuario) FROM tb_usuario WHERE MONTH(tb_usuario.data_cadastro) = MONTH(NOW()) AND tipo_usuario = 1) AS 'Total',
+        (SELECT Total - Agendaram) AS 'Nao Agendaram';     
+     
+     
        
 -- View retorna contagem de quantos contatos foram iniciados para cada tema cadastrado 
 CREATE VIEW vw_tema_count_sessoes
@@ -84,22 +86,59 @@ AS
         
 
 -- View retorna quantos clientes são fotógrafos e quantos são clientes
-CREATE VIEW vw_total_clientes_fotografos
+CREATE VIEW vw_clientes_fotografos
 AS
 	SELECT
-		'Clientes' as Label, (SELECT COUNT(id_usuario) FROM tb_usuario WHERE tipo_usuario = 1) AS 'Quantidade'
-	UNION
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 3 MONTH)) AS 'Mes',
+		(SELECT COUNT(id_usuario) FROM tb_usuario WHERE tipo_usuario = 1 AND MONTH(data_cadastro) = MONTH(DATE_SUB(NOW(), INTERVAL 3 MONTH))) AS 'Clientes',
+		(SELECT COUNT(id_usuario) FROM tb_usuario WHERE tipo_usuario <> 0 AND MONTH(data_cadastro) = MONTH(DATE_SUB(NOW(), INTERVAL 3 MONTH))) AS 'Total',
+        (SELECT COUNT(id_usuario) FROM tb_usuario WHERE tipo_usuario = 2 AND MONTH(data_cadastro) = MONTH(DATE_SUB(NOW(), INTERVAL 3 MONTH))) AS 'Fotografos'
+    UNION
     SELECT
-        'Fotógrafos' as Label, (SELECT COUNT(id_usuario) FROM tb_usuario WHERE tipo_usuario = 2) AS 'Quantidade';
+    	MONTHNAME(DATE_SUB(NOW(), INTERVAL 2 MONTH)) AS 'Mes',
+		(SELECT COUNT(id_usuario) FROM tb_usuario WHERE tipo_usuario = 1 AND MONTH(data_cadastro) = MONTH(DATE_SUB(NOW(), INTERVAL 2 MONTH))) AS 'Clientes',
+		(SELECT COUNT(id_usuario) FROM tb_usuario WHERE tipo_usuario <> 0 AND MONTH(data_cadastro) = MONTH(DATE_SUB(NOW(), INTERVAL 2 MONTH))) AS 'Total',
+        (SELECT COUNT(id_usuario) FROM tb_usuario WHERE tipo_usuario = 2 AND MONTH(data_cadastro) = MONTH(DATE_SUB(NOW(), INTERVAL 2 MONTH))) AS 'Fotografos'
+    UNION
+    SELECT
+    	MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS 'Mes',
+		(SELECT COUNT(id_usuario) FROM tb_usuario WHERE tipo_usuario = 1 AND MONTH(data_cadastro) = MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH))) AS 'Clientes',
+		(SELECT COUNT(id_usuario) FROM tb_usuario WHERE tipo_usuario <> 0 AND MONTH(data_cadastro) = MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH))) AS 'Total',
+        (SELECT COUNT(id_usuario) FROM tb_usuario WHERE tipo_usuario = 2 AND MONTH(data_cadastro) = MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH))) AS 'Fotografos'
+    UNION
+    SELECT
+    	MONTHNAME(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AS 'Mes',
+		(SELECT COUNT(id_usuario) FROM tb_usuario WHERE tipo_usuario = 1 AND MONTH(data_cadastro) = MONTH(DATE_SUB(NOW(), INTERVAL 0 MONTH))) AS 'Clientes',
+		(SELECT COUNT(id_usuario) FROM tb_usuario WHERE tipo_usuario <> 0 AND MONTH(data_cadastro) = MONTH(DATE_SUB(NOW(), INTERVAL 0 MONTH))) AS 'Total',
+        (SELECT COUNT(id_usuario) FROM tb_usuario WHERE tipo_usuario = 2 AND MONTH(data_cadastro) = MONTH(DATE_SUB(NOW(), INTERVAL 0 MONTH))) AS 'Fotografos';
         
 -- View retorna quantas sessões foram finalizadas e quantas foram canceladas
-CREATE VIEW vw_total_sessoes_finalizadas_canceladas
+CREATE VIEW vw_sessoes_realizadas_finalizadas
 AS
-	SELECT
-		'Convertidos' as Label, (SELECT COUNT(id_sessao) FROM tb_sessao WHERE status_sessao LIKE 'Finalizado') AS 'Quantidade'
-	UNION
-    SELECT
-        'Interrompidos' as Label, (SELECT COUNT(id_sessao) FROM tb_sessao WHERE status_sessao LIKE 'Cancelado') AS 'Quantidade';
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 3 MONTH)) AS 'Mes',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 3 MONTH)) AND status_sessao != 'Cancelada') AS 'Convertidas',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 3 MONTH))) AS 'Total',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 3 MONTH)) AND status_sessao = 'Cancelada') AS 'Interrompidas'
+UNION
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 2 MONTH)) AS 'Mes',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 2 MONTH)) AND status_sessao != 'Cancelada') AS 'Convertidas',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 2 MONTH))) AS 'Total',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 2 MONTH)) AND status_sessao = 'Cancelada') AS 'Interrompidas'
+UNION
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS 'Mes',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AND status_sessao != 'Cancelada') AS 'Convertidas',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH))) AS 'Total',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AND status_sessao = 'Cancelada') AS 'Interrompidas'
+UNION
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AS 'Mes',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AND status_sessao != 'Cancelada') AS 'Convertidas',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 0 MONTH))) AS 'Total',
+	(SELECT COUNT(id_sessao) FROM tb_sessao INNER JOIN tb_usuario ON tb_usuario.id_usuario = tb_sessao.fk_fotografo WHERE MONTH(created_at) = MONTH(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AND status_sessao = 'Cancelada') AS 'Interrompidas';
+
         
 -- View que retorna a progressão da quantidade de usuários cadastrados nos últimos 6 meses
 CREATE VIEW vw_progressao_cadastro_usuarios
@@ -129,25 +168,25 @@ AS
 CREATE VIEW vw_progressao_sessoes_realizadas
 AS
 	SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 6 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 6 AND status_sessao = 'Finalizado'
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 6 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 6 AND status_sessao = 'Realizada'
 	UNION
     SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 5 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 5 AND status_sessao = 'Finalizado'
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 5 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 5 AND status_sessao = 'Realizada'
 	UNION
     SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 4 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 4 AND status_sessao = 'Finalizado'
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 4 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 4 AND status_sessao = 'Realizada'
 	UNION
     SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 3 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 3 AND status_sessao = 'Finalizado'
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 3 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 3 AND status_sessao = 'Realizada'
 	UNION
     SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 2 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 2 AND status_sessao = 'Finalizado'
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 2 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 2 AND status_sessao = 'Realizada'
 	UNION
     SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 1 AND status_sessao = 'Finalizado'
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 1 AND status_sessao = 'Realizada'
 	UNION
 	SELECT
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 0 AND status_sessao = 'Finalizado';
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 0 AND status_sessao = 'Realizada';
         
 -- View KPI 1 - Usuários cadastros no mês atual e no último mês
 CREATE VIEW vw_kpi_usuarios_mes

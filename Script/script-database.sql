@@ -9,18 +9,18 @@ GRANT ALL PRIVILEGES ON picme.* TO 'picmeUser'@'localhost';
 USE picme;
 
 CREATE TABLE tb_usuario (
-  id_usuario BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-  nome VARCHAR(120) NOT NULL,
+  id_usuario BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,1
+  nome VARCHAR(120) NOT NULL,2
   cpf CHAR(14) NOT NULL,
   email VARCHAR(256) NOT NULL,
   senha VARCHAR(100) NOT NULL,
-  data_nascimento DATE NOT NULL,
-  celular VARCHAR(20) NOT NULL,
-  data_cadastro DATETIME NOT NULL,
-  tipo_usuario TINYINT NOT NULL,
+  data_nascimento DATE NOT NULL,3
+  celular VARCHAR(20) NOT NULL,4
+  data_cadastro DATETIME NOT NULL,5
+  tipo_usuario TINYINT NOT NULL,6
   token_solicitacao VARCHAR(200),
-  cidade_preferencia VARCHAR(150),
-  estado_preferencia VARCHAR(150),
+  cidade_preferencia VARCHAR(150),7
+  estado_preferencia VARCHAR(150),8
   autenticado TINYINT,
   INDEX(cpf, email, nome)
 );
