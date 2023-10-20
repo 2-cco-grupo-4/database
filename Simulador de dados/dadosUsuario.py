@@ -14,18 +14,17 @@ def gerar_cpf():
 
     return ''.join(cpf)
 
-def gerar_dados_usuario():
+def gerar_dados_usuario(tipo_usuario):
     fake = Faker("pt_BR")
     nome = fake.name()
     cpf = gerar_cpf()
     email = fake.email()
     senha = fake.password()
     data_nascimento = fake.date_of_birth(minimum_age=18, maximum_age=50)
-    autenticado = random.choice([1, 0])
+    autenticado = random.choice([0, 1])
     celular = fake.phone_number()
     data_cadastro = fake.date_time_between(start_date='-1y', end_date='now')
-    tipo_usuario = random.choice([1, 2])
-    token_solicitacao = fake.uuid4()
+    token_solicitacao = fake.password()
     cidade_preferencia = fake.city()
     estado_preferencia = fake.state()
     
@@ -34,11 +33,12 @@ def gerar_dados_usuario():
 def gerar_queries_insert(num_queries):
     queries = []
 
-    for _ in range(num_queries):
-        dados_usuario = gerar_dados_usuario()
+    for i in range(num_queries):
+        tipo_usuario = 1 if i < 25 else 2
+        dados_usuario = gerar_dados_usuario(tipo_usuario)
 
         query = "INSERT INTO tb_usuario (nome, cpf, email, senha, data_nascimento, celular, data_cadastro, tipo_usuario, token_solicitacao, cidade_preferencia, estado_preferencia, autenticado) " \
-                f"VALUES ('{dados_usuario[0]}', '{dados_usuario[1]}', '{dados_usuario[2]}', '{dados_usuario[3]}', '{dados_usuario[4]}', '{dados_usuario[5]}', '{dados_usuario[6]}', {dados_usuario[7]}, '{dados_usuario[8]}', '{dados_usuario[9]}', '{dados_usuario[10]}');"
+                f"VALUES ('{dados_usuario[0]}', '{dados_usuario[1]}', '{dados_usuario[2]}', '{dados_usuario[3]}', '{dados_usuario[4]}', '{dados_usuario[5]}', '{dados_usuario[6]}', {dados_usuario[7]}, '{dados_usuario[8]}', '{dados_usuario[9]}', '{dados_usuario[10]}', '{dados_usuario[11]}');"
 
         queries.append(query)
 

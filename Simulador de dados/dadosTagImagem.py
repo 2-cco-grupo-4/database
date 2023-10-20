@@ -16,7 +16,7 @@ def write_to_file(filename, data):
         for insert in data:
             file.write(insert + '\n')
 
-num_images = 100
+num_images = 50
 num_tags = 8
 filename = 'dadosTagImagem.txt'
 

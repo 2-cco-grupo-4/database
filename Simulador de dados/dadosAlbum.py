@@ -4,7 +4,7 @@ titulos = ["Casamento da filha", "Aniversario do cunhado", "Momentos Especiais",
 
 descricoes = ["Um álbum repleto de memórias incríveis.", "Registros dos melhores momentos da vida.", "Melhor dia da minha vida", "Momentos únicos capturados para a eternidade."]
 
-ids_fotografos = list(range(1, 51))
+ids_fotografos = list(range(1, 26))
 
 ids_temas = list(range(1, 7)) 
 
@@ -12,7 +12,6 @@ with open("dadosAlbum.txt", "w") as arquivo:
     for fotografo in ids_fotografos:
         for _ in range(2):
             tema = random.choice(ids_temas)
-            
             titulo = random.choice(titulos)
             descricao = random.choice(descricoes)
             

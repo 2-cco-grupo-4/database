@@ -27,7 +27,7 @@ urls_casamento = [
 
 formatos = ["jpg", "png", "gif"]
 
-num_albuns = 100
+num_albuns = 50
 ids_albuns = list(range(1, num_albuns + 1))
 
 def gerar_comando_insert(id_album):
