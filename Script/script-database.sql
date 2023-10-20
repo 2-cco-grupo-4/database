@@ -9,7 +9,7 @@ GRANT ALL PRIVILEGES ON picme.* TO 'picmeUser'@'localhost';
 USE picme;
 
 CREATE TABLE tb_usuario (
-  id_usuario BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,1
+  id_usuario BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   nome VARCHAR(120) NOT NULL,
   cpf CHAR(14) NOT NULL,
   email VARCHAR(256) NOT NULL,
@@ -131,12 +131,13 @@ CREATE TABLE tb_endereco (
 CREATE TABLE tb_pagamento (
   id_pagamento BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   forma VARCHAR(60) NOT NULL,
-  valor DECIMAL NOT NULL,
+  valor DECIMAL(10, 2) NOT NULL,
   parcelas INT NOT NULL,
   fk_sessao BIGINT NOT NULL,
   FOREIGN KEY (fk_sessao) REFERENCES tb_sessao(id_sessao),
   INDEX(forma, valor)
 );
+
 
 CREATE TABLE tb_avaliacao (
   id_avaliacao BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
