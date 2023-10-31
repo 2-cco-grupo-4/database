@@ -1,7 +1,7 @@
 import random
 
 id_usuarios = list(range(1, 51))
-id_temas = list(range(1, 9))
+id_temas = list(range(1, 7))
 
 num_inserts = 30
 inserts = []
