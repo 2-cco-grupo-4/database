@@ -5,7 +5,7 @@ num_pagamentos = 30
 formas_de_pagamento = ["Cartão de Crédito", "Boleto Bancário", "Transferência Bancária", "PIX"]
 
 # Gere IDs de sessão sequencialmente
-ids_sessao = list(range(1, num_pagamentos + 1))
+ids_sessao = list(range(2, 32))
 
 inserts = []
 for i in range(num_pagamentos):

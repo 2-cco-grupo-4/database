@@ -4,7 +4,7 @@ import random
 num_avaliacoes = 30
 
 # IDs de sessão
-ids_sessao = list(range(1, num_avaliacoes + 1))
+ids_sessao = list(range(2, 32))
 
 inserts = []
 for sessao_id in ids_sessao:

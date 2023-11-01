@@ -3,13 +3,14 @@ import random
 
 fake = Faker('pt_BR')
 
-id_sessoes = list(range(1, 31))
+id_sessoes = list(range(2, 32))
 
 num_inserts = 30
 inserts = []
 
 for sessao_id in id_sessoes:
-    estado = fake.estado()
+    estado_info = fake.estado()
+    estado = estado_info[1] 
     cidade = fake.city()
     cep = fake.postcode()
     bairro = fake.bairro()
