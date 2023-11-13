@@ -39,16 +39,15 @@ AS
         (SELECT COUNT(DISTINCT id_usuario) FROM tb_usuario WHERE MONTH(tb_usuario.data_cadastro) = MONTH(NOW()) AND tipo_usuario = 1) AS 'Total',
         (SELECT Total - Agendaram) AS 'Nao Agendaram';
        
-       
-       select * from tb_usuario;
-       
 -- View retorna contagem de quantos contatos foram iniciados para cada tema cadastrado 
 CREATE VIEW vw_tema_count_sessoes
 AS
 	SELECT
 		nome AS Tema,
 		COUNT(fk_tema) AS Sessoes,
-		ROUND(AVG(tb_pagamento.valor), 2) AS ValorGerado
+		ROUND(AVG(tb_pagamento.valor), 2) AS ValorGerado,
+		MONTHNAME(data_realizacao) AS 'Mes', 
+		YEAR(data_realizacao) AS 'Ano'
 	FROM
 		tb_sessao
 	INNER JOIN
@@ -56,9 +55,20 @@ AS
 	INNER JOIN
 		tb_pagamento ON tb_sessao.id_sessao = tb_pagamento.fk_sessao
 	GROUP BY
-		Tema;
+		Tema, Mes, Ano;
 	
-drop view VW_TEMA_COUNT_SESSOES;
+CREATE VIEW vw_estados_mais_sessoes
+AS
+	SELECT 
+		estado, 
+		COUNT(id_sessao) AS 'Total',
+		MONTHNAME(data_realizacao) AS 'Mes', 
+		YEAR(data_realizacao) AS 'Ano'
+	FROM tb_endereco
+	INNER JOIN 
+		tb_sessao ON tb_sessao.id_sessao = tb_endereco.fk_sessao
+	GROUP BY estado, Mes, Ano
+	ORDER BY Total DESC;
 
         
 -- View que retorna contagem de usuario do tipo Cliente separados por faixa etária
@@ -191,6 +201,38 @@ AS
 	UNION
 	SELECT
 		MONTHNAME(DATE_SUB(NOW(), INTERVAL 0 MONTH)) AS 'Mes', COUNT(id_sessao) AS 'Quantidade' FROM tb_sessao WHERE TIMESTAMPDIFF(MONTH, data_realizacao, CURDATE()) = 0 AND status_sessao = 'Realizada';
+	
+-- SET lc_time_names = 'pt_BR';
+CREATE VIEW vw_fluxo_sessoes_covertidas
+AS
+	SELECT 
+		COUNT(id_sessao) as 'Quantidade', MONTHNAME(data_realizacao) AS 'Mes', YEAR(data_realizacao) AS 'Ano' FROM tb_sessao
+	UNION
+	SELECT 
+		COUNT(id_sessao) as 'Quantidade', MONTHNAME(data_realizacao) AS 'Mes', YEAR(data_realizacao) AS 'Ano' FROM tb_sessao WHERE status_sessao IN ('Proposta', 'Aceita', 'Em Negociação', 'Agendada', 'Realizada')
+	UNION
+	SELECT 
+		COUNT(id_sessao) as 'Quantidade', MONTHNAME(data_realizacao) AS 'Mes', YEAR(data_realizacao) AS 'Ano' FROM tb_sessao WHERE status_sessao IN ('Aceita', 'Em Negociação', 'Agendada', 'Realizada')
+	UNION
+	SELECT 
+		COUNT(id_sessao) as 'Quantidade', MONTHNAME(data_realizacao) AS 'Mes', YEAR(data_realizacao) AS 'Ano' FROM tb_sessao WHERE status_sessao IN ('Em Negociação', 'Agendada', 'Realizada')
+	UNION
+	SELECT 
+		COUNT(id_sessao) as 'Quantidade', MONTHNAME(data_realizacao) AS 'Mes', YEAR(data_realizacao) AS 'Ano' FROM tb_sessao WHERE status_sessao IN ('Agendada', 'Realizada')
+	UNION
+	SELECT 
+		COUNT(id_sessao), MONTHNAME(data_realizacao) AS 'Mes', YEAR(data_realizacao) AS 'Ano' FROM tb_sessao WHERE status_sessao = 'Realizada'
+	GROUP BY Mes, Ano;
+
+CREATE VIEW vw_formas_pagamentos_populares
+AS
+	SELECT 
+		forma,
+		COUNT(id_pagamento) as 'Total', 
+		MONTHNAME(data_realizacao) AS 'Mes', 
+		YEAR(data_realizacao) AS 'Ano' 
+	FROM tb_pagamento INNER JOIN tb_sessao ON tb_sessao.id_sessao = tb_pagamento.fk_sessao
+	GROUP BY forma, Mes, Ano;
         
 -- View KPI 1 - Usuários cadastros no mês atual e no último mês
 CREATE VIEW vw_kpi_usuarios_mes
