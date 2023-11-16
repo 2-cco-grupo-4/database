@@ -241,8 +241,8 @@ AS
 		MONTHNAME(NOW()) AS 'Mes', (SELECT COUNT(id_usuario) FROM tb_usuario WHERE DATEDIFF(CURDATE(), data_cadastro) <= 31) AS 'Quantidade'
 	UNION
     SELECT 
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS 'Mes', (SELECT COUNT(id_usuario) FROM tb_usuario WHERE DATEDIFF(CURDATE(), data_cadastro) > 31 AND DATEDIFF(CURDATE(), data_cadastro) <= 62) AS 'MesPassado';
-        
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS 'Mes', (SELECT COUNT(id_usuario) FROM tb_usuario WHERE DATEDIFF(CURDATE(), data_cadastro) > 31 AND DATEDIFF(CURDATE(), data_cadastro) <= 62);
+	
 -- View KPI 2 - Sessões realizadas no mês atual e no último mês
 CREATE VIEW vw_kpi_sessoes_mes
 AS
@@ -250,7 +250,7 @@ AS
 		MONTHNAME(NOW()) AS 'Mes', (SELECT COUNT(id_sessao) FROM tb_sessao WHERE status_sessao != 'Cancelada' AND DATEDIFF(CURDATE(), data_realizacao) <= 31) AS 'Sessoes'
 	UNION
     SELECT 
-		MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS 'Mes', (SELECT COUNT(id_sessao) FROM tb_sessao WHERE status_sessao = 'Cancelada' AND DATEDIFF(CURDATE(), data_realizacao) > 31 AND DATEDIFF(CURDATE(), data_realizacao) <= 62) AS 'Sessoes';
+		MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS 'Mes', (SELECT COUNT(id_sessao) FROM tb_sessao WHERE status_sessao != 'Cancelada' AND DATEDIFF(CURDATE(), data_realizacao) > 31 AND DATEDIFF(CURDATE(), data_realizacao) <= 62) AS 'Sessoes';
 
 -- View KPI 3 - Acessos no mês atual e no último mês         
 CREATE VIEW vw_kpi_acessos_mes
@@ -260,4 +260,3 @@ AS
 	UNION
     SELECT 
 		MONTHNAME(DATE_SUB(NOW(), INTERVAL 1 MONTH)) AS 'Mes', (SELECT COUNT(fk_usuario) FROM tb_log_acessos WHERE DATEDIFF(CURDATE(), data_login) > 31 AND DATEDIFF(CURDATE(), data_login) <= 62) AS 'Acessos';
-	
