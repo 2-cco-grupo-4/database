@@ -4,8 +4,9 @@
 -- Dropar database
 -- DROP DATABASE picme;
 
-CREATE DATABASE picme;
+-- CREATE DATABASE picme ;
 GRANT ALL PRIVILEGES ON picme.* TO 'picmeUser'@'localhost';
+
 USE picme;
 
 CREATE TABLE tb_usuario (
@@ -104,7 +105,7 @@ CREATE TABLE tb_sessao (
   id_sessao BIGINT PRIMARY KEY AUTO_INCREMENT NOT NULL,
   data_realizacao DATETIME NOT NULL,
   status_sessao VARCHAR(20),
-  created_at DATETIME NOT NULL,
+  created_at DATETIME ,
   fk_fotografo BIGINT NOT NULL,
   fk_tema BIGINT,
   fk_cliente BIGINT,
