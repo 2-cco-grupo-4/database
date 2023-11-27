@@ -161,9 +161,7 @@ LEFT JOIN tb_sessao ON
     AND meses.mes = MONTHNAME(tb_sessao.created_at)
     AND YEAR(tb_sessao.created_at) = YEAR(DATE_SUB(NOW(), INTERVAL 1 YEAR))
 GROUP BY meses.mes, tb_usuario.id_usuario
-ORDER BY meses.mes, tb_usuario.id_usuario;
-
-select * from VW_CONTATOS_CONVERTIDOS_SESSAO where User = 5;
+ORDER BY tb_usuario.id_usuario;
 
 
 

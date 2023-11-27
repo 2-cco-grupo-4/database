@@ -23,6 +23,7 @@ CREATE TABLE tb_usuario (
   cidade_preferencia VARCHAR(150),
   estado_preferencia VARCHAR(150),
   autenticado TINYINT,
+  image_url VARCHAR(500),
   INDEX(cpf, email, nome)
 );
 
