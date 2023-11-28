@@ -196,7 +196,6 @@ urls_evento = [
     "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "https://images.unsplash.com/photo-1561489396-888724a1543d?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-
 ]
 
 urls_familia = [
@@ -224,7 +223,6 @@ urls_formatura = [
     "https://images.unsplash.com/photo-1628887919785-ae536631cb76?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&w=500",
     "https://images.unsplash.com/photo-1639765766830-d829d2fe4219?q=80&w=1446&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "https://images.unsplash.com/photo-1627556704290-2b1f5853ff78?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-
 ]
 
 class Usuario(Base):
@@ -360,7 +358,7 @@ class LogSessao(Base):
 Base.metadata.create_all(bind=engine)
 
 # Configuração do Faker
-fake = Faker()
+fake = Faker(['pt_BR'])
 
 # Gerar e inserir dados fictícios
 def gerar_dados_ficticios():
@@ -374,7 +372,7 @@ def gerar_dados_ficticios():
         
         try:
             # Usando uma transação global
-                for _ in range(50000000):  # Altere conforme necessário
+                for _ in range(50000):  # Altere conforme necessário - Para cada 10 usuários, gerar 1 fotógrafo
                     usuario = Usuario(
                         nome=fake.name(),
                         cpf=fake.random_int(min=10000000000, max=99999999999),
@@ -382,7 +380,7 @@ def gerar_dados_ficticios():
                         senha=fake.password(),
                         data_nascimento=fake.date_of_birth(),
                         celular=fake.pystr(max_chars=20),
-                        tipo_usuario=fake.random_int(min=0, max=2),
+                        tipo_usuario=fake.random_int(min=1, max=2),
                         cidade_preferencia=fake.city(),
                         estado_preferencia=fake.state(),
                         autenticado=fake.random_int(min=0, max=1),
@@ -432,7 +430,7 @@ def gerar_dados_ficticios():
             
         
         try:
-            for _ in range(50000000):  # Altere conforme necessário
+            for _ in range(75000):  # Altere conforme necessário - Ajustar lógica para o sorteio do usuário que receberá as tags
                 usuario_tag = UsuarioTag(
                     id_tag=fake.random_int(min=1, max=100),
                     id_usuario=fake.random_int(min=1, max=100)
@@ -456,7 +454,7 @@ def gerar_dados_ficticios():
                 
        
         try:
-            for _ in range(50000000):  # Altere conforme necessário    
+            for _ in range(1500):  # Altere conforme necessário - gerar 3 albuns por fotografo    
                 album = Album(
                     titulo=fake.word(),
                     descricao=fake.text(max_nb_chars=100),
@@ -474,7 +472,7 @@ def gerar_dados_ficticios():
             db.rollback()
             
         try:
-            for _ in range(50000000):  # Altere conforme necessário
+            for _ in range(26000):  # Altere conforme necessário - distribuir bastante a data login
                 logAcessos = LogAcessos(
                     fk_usuario=fake.random_int(min=1, max=100),
                     data_login=fake.date_time()
@@ -491,7 +489,7 @@ def gerar_dados_ficticios():
             
         
         try:
-            for _ in range(50000000):  # Altere conforme necessário
+            for _ in range(370):  # Altere conforme necessário
                 logPesquisas = LogPesquisas(
                     termo_busca=fake.word(),
                     data_pesquisa=fake.date_time(),
@@ -508,7 +506,7 @@ def gerar_dados_ficticios():
             db.rollback()
             
         try:
-            for _ in range(50000000):  # Altere conforme necessário
+            for _ in range(7000):  # Altere conforme necessário - Aleatorizar a quantidade de imagens por album
                 imagem = Imagem(
                     media_url=fake.url(),
                     permalink=fake.url(),
@@ -529,7 +527,7 @@ def gerar_dados_ficticios():
             db.rollback()
             
         try:
-            for _ in range(50000000):
+            for _ in range(185000): # Gerar um total de 18500 conexões entre tag e imagem
                 while True:
                     try:
                         tagImagem = TagImagem(
@@ -553,7 +551,7 @@ def gerar_dados_ficticios():
 
             
         try:
-            for _ in range(50000000):
+            for _ in range(7530): # Distribuir o interesse de temas entre os usuários
                 while True:
                     try:
                         usuarioTema = UsuarioTema(
@@ -576,7 +574,7 @@ def gerar_dados_ficticios():
                             
             
         try:
-            for _ in range(50000000):  # Altere conforme necessário
+            for _ in range(12580):  # Altere conforme necessário - Distribuir as contratações entre os usuários e os clientes
                 sessao = Sessao(
                     data_realizacao=fake.date_time(),
                     status_sessao=fake.word(),
@@ -596,7 +594,7 @@ def gerar_dados_ficticios():
             db.rollback()
             
         try:
-            for _ in range(50000000):  # Altere conforme necessário
+            for _ in range(12580):  # Altere conforme necessário - Toda sessão deverão ter um endereço
                 endereco = Endereco(
                     cep=fake.postcode(),
                     logradouro=fake.street_name(),
@@ -620,7 +618,7 @@ def gerar_dados_ficticios():
             
         
         try:
-            for _ in range(50000000):
+            for _ in range(12580): # Toda sessão deve ter uma proposta de pagamento
                 while True:
                     try:
                         pagamento = Pagamento(
@@ -645,7 +643,7 @@ def gerar_dados_ficticios():
             db.rollback()
             
         try:
-            for _ in range(50000000):  # Altere conforme necessário
+            for _ in range(12580):  # Sessões que tiverem o status 'Realizada'
                 avaliacao = Avaliacao(
                     nota=fake.pyfloat(),
                     descricao=fake.text(max_nb_chars=300),
@@ -662,7 +660,7 @@ def gerar_dados_ficticios():
             db.rollback()
             
         try:
-            for _ in range(50000000):  # Altere conforme necessário
+            for _ in range(30000):  # Aleatorizar logs - não temos regra especifica
                 logSessao = LogSessao(
                     data_modificacao=fake.date_time(),
                     status_sessao=fake.word(),
