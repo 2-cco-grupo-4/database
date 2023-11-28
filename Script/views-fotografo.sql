@@ -109,6 +109,41 @@ WHERE
 -- View que retorna a variação de lucro nos últimos meses
 CREATE VIEW vw_variacao_lucro_ultimos_meses AS
 SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 11 MONTH)) AS 'Mes',
+	(SELECT (COALESCE(SUM(tb_pagamento.valor), 0)) FROM tb_pagamento INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao WHERE tb_sessao.fk_fotografo = tb_usuario.id_usuario AND MONTH(tb_sessao.data_realizacao) = MONTH(NOW()) - 11) AS Lucro,
+	id_usuario as 'User' FROM tb_usuario
+UNION
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 10 MONTH)) AS 'Mes',
+	(SELECT (COALESCE(SUM(tb_pagamento.valor), 0)) FROM tb_pagamento INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao WHERE tb_sessao.fk_fotografo = tb_usuario.id_usuario AND MONTH(tb_sessao.data_realizacao) = MONTH(NOW()) - 10) AS Lucro,
+	id_usuario as 'User' FROM tb_usuario
+UNION
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 9 MONTH)) AS 'Mes',
+	(SELECT (COALESCE(SUM(tb_pagamento.valor), 0)) FROM tb_pagamento INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao WHERE tb_sessao.fk_fotografo = tb_usuario.id_usuario AND MONTH(tb_sessao.data_realizacao) = MONTH(NOW()) - 9) AS Lucro,
+	id_usuario as 'User' FROM tb_usuario
+UNION
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 8 MONTH)) AS 'Mes',
+	(SELECT (COALESCE(SUM(tb_pagamento.valor), 0)) FROM tb_pagamento INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao WHERE tb_sessao.fk_fotografo = tb_usuario.id_usuario AND MONTH(tb_sessao.data_realizacao) = MONTH(NOW()) - 8) AS Lucro,
+	id_usuario as 'User' FROM tb_usuario
+UNION
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 7 MONTH)) AS 'Mes',
+	(SELECT (COALESCE(SUM(tb_pagamento.valor), 0)) FROM tb_pagamento INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao WHERE tb_sessao.fk_fotografo = tb_usuario.id_usuario AND MONTH(tb_sessao.data_realizacao) = MONTH(NOW()) - 7) AS Lucro,
+	id_usuario as 'User' FROM tb_usuario
+UNION
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 6 MONTH)) AS 'Mes',
+	(SELECT (COALESCE(SUM(tb_pagamento.valor), 0)) FROM tb_pagamento INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao WHERE tb_sessao.fk_fotografo = tb_usuario.id_usuario AND MONTH(tb_sessao.data_realizacao) = MONTH(NOW()) - 6) AS Lucro,
+	id_usuario as 'User' FROM tb_usuario
+UNION
+SELECT
+	MONTHNAME(DATE_SUB(NOW(), INTERVAL 5 MONTH)) AS 'Mes',
+	(SELECT (COALESCE(SUM(tb_pagamento.valor), 0)) FROM tb_pagamento INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao WHERE tb_sessao.fk_fotografo = tb_usuario.id_usuario AND MONTH(tb_sessao.data_realizacao) = MONTH(NOW()) - 5) AS Lucro,
+	id_usuario as 'User' FROM tb_usuario
+UNION
+SELECT
 	MONTHNAME(DATE_SUB(NOW(), INTERVAL 4 MONTH)) AS 'Mes',
 	(SELECT (COALESCE(SUM(tb_pagamento.valor), 0)) FROM tb_pagamento INNER JOIN tb_sessao ON tb_pagamento.fk_sessao = tb_sessao.id_sessao WHERE tb_sessao.fk_fotografo = tb_usuario.id_usuario AND MONTH(tb_sessao.data_realizacao) = MONTH(NOW()) - 4) AS Lucro,
 	id_usuario as 'User' FROM tb_usuario
