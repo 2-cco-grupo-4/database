@@ -4,9 +4,12 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 from sqlalchemy.sql import func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.exc import IntegrityError, DataError
+import random
+from datetime import datetime
+from art import *
 
 # Configuração do banco de dados
-DATABASE_URL = "mysql://picme_trojan:trojan@localhost/picme_demo"
+DATABASE_URL = "mysql://picmeUser:picme123@localhost/picme_teste"
 engine = create_engine(DATABASE_URL)
 
 # Definindo a estrutura das tabelas
@@ -225,6 +228,44 @@ urls_formatura = [
     "https://images.unsplash.com/photo-1627556704290-2b1f5853ff78?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
 ]
 
+temas_e_urls = {
+    1: urls_casamento,
+    2: urls_vintage,
+    3: urls_evento,
+    4: urls_familia,
+    5: urls_aniversario,
+    6: urls_festa,
+    7: urls_animais,
+    8: urls_debutante,
+    9: urls_formatura,
+    10: urls_esporte,
+    11: urls_paisagem,
+    12: urls_natureza,
+    13: urls_moda,
+    14: urls_viagem,
+    15: urls_gastronomia,
+}
+
+status_sessoes = [
+    "Proposta",
+    "Em negociação",
+    "Agendada",
+    "Realizada",
+    "Cancelada",
+]
+
+def gerar_album_aleatorio():
+    tema = random.choice(list(temas_e_urls.keys()))
+    urls_do_tema = temas_e_urls[tema]
+    lista_de_urls = []
+    for _ in range(0,3):
+        imagem_aleatoria = random.choice(urls_do_tema)
+        lista_de_urls.append(imagem_aleatoria)
+    
+    return tema, lista_de_urls
+
+
+
 class Usuario(Base):
     __tablename__ = 'tb_usuario'
     id_usuario = Column(Integer, primary_key=True, autoincrement=True)
@@ -240,6 +281,7 @@ class Usuario(Base):
     cidade_preferencia = Column(String(150))
     estado_preferencia = Column(String(150))
     autenticado = Column(Integer)
+    image_url = Column(String(500))
     Index('cpf', 'email', 'nome')
 
 class Tag(Base):
@@ -362,111 +404,194 @@ fake = Faker(['pt_BR'])
 
 # Gerar e inserir dados fictícios
 def gerar_dados_ficticios():
-    BATCH_SIZE = 50000
+    BATCH_SIZE = 1000
     SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    
+    print(text2art('''PICME''', font="big"))
+    print(text2art('''SPTECH - 2023''', font="small"))
 
-    for tema in listTemas:
-        print(tema)
+    print('Gerando dados fictícios...')
+    print('Horário de início: [', datetime.now(), ']')
     
     with SessionLocal() as db:
         
         try:
-            # Usando uma transação global
-                for _ in range(50000):  # Altere conforme necessário - Para cada 10 usuários, gerar 1 fotógrafo
-                    usuario = Usuario(
-                        nome=fake.name(),
-                        cpf=fake.random_int(min=10000000000, max=99999999999),
-                        email=fake.email(),
-                        senha=fake.password(),
-                        data_nascimento=fake.date_of_birth(),
-                        celular=fake.pystr(max_chars=20),
-                        tipo_usuario=fake.random_int(min=1, max=2),
-                        cidade_preferencia=fake.city(),
-                        estado_preferencia=fake.state(),
-                        autenticado=fake.random_int(min=0, max=1),
-                        token_solicitacao=fake.word(),
-                    )
-                    db.add(usuario)
-                    if _ % BATCH_SIZE == 0:
-                        db.commit()
-                        # Iniciar uma nova transação
-                        db.begin()
-                db.commit()
-        except Exception as e:
-            print(f"Erro durante a geração de dados: {e}")
-            db.rollback()
-            
-        
-        try:
-            for x in range(tag.__len__):
+            # Adicionar Tags
+            for x in listTags:
                 tag = Tag(
-                    nome = x
+                    nome=x
                 )
                 db.add(tag)
-                if _ % BATCH_SIZE == 0:
+                if db.query(Tag).count() % BATCH_SIZE == 0:
                     db.commit()
                     # Iniciar uma nova transação
                     db.begin()
             db.commit()
         except Exception as e:
-            print(f"Erro durante a geração de dados: {e}")
+            print(f"Erro durante a geração de dados para Tags: {e}")
             db.rollback()
-            
-            
+
         try:
-            for x in range(tema.__len__):
+            # Adicionar Temas
+            for x in listTemas:
                 tema = Tema(
-                    nome = x
+                    nome=x
                 )
                 db.add(tema)
-                if _ % BATCH_SIZE == 0:
+                if db.query(Tema).count() % BATCH_SIZE == 0:
                     db.commit()
                     # Iniciar uma nova transação
                     db.begin()
             db.commit()
         except Exception as e:
-            print(f"Erro durante a geração de dados: {e}")
+            print(f"Erro durante a geração de dados para Temas: {e}")
             db.rollback()
+
+        try:
+            # Usando uma transação global
+            for _ in range(50000):  # Altere conforme necessário - Para cada 10 usuários, gerar 1 fotógrafo
+                usuario = Usuario(
+                    nome=fake.name(),
+                    cpf=fake.random_int(min=10000000000, max=99999999999),
+                    email=fake.email(),
+                    senha=fake.password(),
+                    data_nascimento=fake.date_of_birth(),
+                    celular=fake.pystr(max_chars=20),
+                    tipo_usuario=1 if (_ % 10 != 9) else 2,
+                    cidade_preferencia=fake.city(),
+                    estado_preferencia=fake.estado_sigla(),
+                    autenticado=fake.random_int(min=0, max=1),
+                    token_solicitacao=fake.pystr(max_chars=200),
+                    data_cadastro=fake.date_time_between(start_date="-2y", end_date="now"),
+                )
+                # Se o usuário for um fotógrafo, associar um álbum
+                db.add(usuario)
+                db.commit()
+
+                usuario_id = usuario.id_usuario
+
+                if usuario.tipo_usuario == 2:
+                    fk_fotografo = usuario_id  # O ID do fotógrafo é o mesmo que o ID do usuário
+                    fk_tema_gerado, urls = gerar_album_aleatorio()
+
+                    for _ in range(3):  # Gerar 3 álbuns para cada fotógrafo
+                        album = Album(
+                            titulo=fake.word(),
+                            descricao=fake.text(max_nb_chars=100),
+                            fk_fotografo=fk_fotografo,
+                            fk_tema=fk_tema_gerado
+                        )
+                        db.add(album)
+                        db.commit()
+
+                        for x in urls:
+                            id_album = db.query(Album).filter_by(titulo=album.titulo).first().id_album
+                            imagem = Imagem(
+                                media_url=x,
+                                permalink=fake.url(),
+                                caption=fake.text(max_nb_chars=100),
+                                media_type=fake.pystr(max_chars=5),
+                                origem_imagem="INSTA",
+                                updated_at=fake.date_time_between(start_date="-1y", end_date="now"),
+                                fk_album=id_album  # Usar o ID do álbum recém-criado
+                            )
+                            db.add(imagem)
+
+                    # Gerar sessões para o fotógrafo com 50% de chance
+                    if fake.random_int(min=0, max=1) == 1:
+                        for _ in range(fake.random_int(min=1, max=8)):  # Entre 1 e 8 sessões
+                            # Inicializar o cliente com um valor inválido
+                            fk_cliente = None
+
+                            # Loop até encontrar um cliente do tipo 1
+                            while fk_cliente is None or db.query(Usuario).filter_by(id_usuario=fk_cliente, tipo_usuario=1).count() == 0:
+                                fk_cliente = fake.random_int(min=1, max=100)
+
+                            sessao = Sessao(
+                                data_realizacao=None,
+                                status_sessao=random.choice(status_sessoes),
+                                created_at=fake.date_time_between(start_date="-2y", end_date="now"),
+                                fk_fotografo=fk_fotografo,
+                                fk_cliente=fk_cliente,
+                                fk_tema=fake.random_int(min=1, max=15)
+                            )
+                            
+                            while sessao.data_realizacao is None or sessao.data_realizacao < sessao.created_at:
+                                sessao.data_realizacao = fake.date_time_between(start_date="-2y", end_date="+1y")
+                            
+                            # Verificar se a sessão ocorreu no passado
+                            if sessao.data_realizacao <= datetime.now():
+                                # Definir o status como "Cancelada" ou "Realizada"
+                                sessao.status_sessao = random.choice(["Cancelada", "Realizada"])
+
+                            
+                            db.add(sessao)
+                            db.commit()  # Commit para garantir que a sessao seja inserida antes de obter o id_sessao
+
+                            # Agora, use o id_sessao diretamente do objeto sessao
+                            id_sessao = sessao.id_sessao
+
+                            # Cada sessão deve ter um endereço
+                            endereco = Endereco(
+                                cep=fake.postcode(True),
+                                logradouro=fake.street_name(),
+                                numero=fake.building_number(),
+                                complemento=fake.street_prefix(),
+                                bairro=fake.neighborhood(),
+                                cidade=fake.city(),
+                                estado=fake.estado_sigla(),
+                                fk_sessao=id_sessao
+                            )
+                            db.add(endereco)
+
+                            # Cada sessão deve ter uma proposta de pagamento
+                            pagamento = Pagamento(
+                                forma=fake.word(),
+                                valor=fake.pyfloat(min_value=0, max_value=1000),
+                                parcelas=fake.random_int(min=1, max=12),
+                                fk_sessao=id_sessao
+                            )
+                            db.add(pagamento)
+
+                        db.commit()
+
+                if _ % BATCH_SIZE == 0:
+                    db.commit()
+                    # Iniciar uma nova transação
+                    db.begin()
+
+            db.commit()
+            print('Batch de usuários inseridos com sucesso!')
+        except Exception as e:
+            print(f"Erro durante a geração de dados para Usuários: {e}")
+            db.rollback()
+
+
             
         
         try:
-            for _ in range(75000):  # Altere conforme necessário - Ajustar lógica para o sorteio do usuário que receberá as tags
-                usuario_tag = UsuarioTag(
-                    id_tag=fake.random_int(min=1, max=100),
-                    id_usuario=fake.random_int(min=1, max=100)
-                )
-                if not db.query(UsuarioTag).filter_by(id_tag=usuario_tag.id_tag, id_usuario=usuario_tag.id_usuario).first():
-                    # Inserir apenas se não existir
-                    db.add(usuario_tag)
-                    try:
+            for _ in range(75000):
+                id_tag = fake.random_int(min=1, max=22)
+                id_usuario = fake.random_int(min=1, max=50000)
+
+                # print(f"Tentando inserir: id_tag={id_tag}, id_usuario={id_usuario}")
+
+                usuario_tag = UsuarioTag(id_tag=id_tag, id_usuario=id_usuario)
+
+                try:
+                    if not db.query(UsuarioTag).filter_by(id_tag=id_tag, id_usuario=id_usuario).first():
+                        # Inserir apenas se não existir
+                        db.add(usuario_tag)
+
                         if _ % BATCH_SIZE == 0:
                             db.commit()
                             # Iniciar uma nova transação
                             db.begin()
-                    except IntegrityError as e:
-                        # Lidar com a exceção (por exemplo, imprimir uma mensagem)
-                        print(f"Erro de integridade: {e}")
-                        db.rollback()
-            db.commit()
-        except Exception as e:
-            print(f"Erro durante a geração de dados: {e}")
-            db.rollback()
-                
-       
-        try:
-            for _ in range(1500):  # Altere conforme necessário - gerar 3 albuns por fotografo    
-                album = Album(
-                    titulo=fake.word(),
-                    descricao=fake.text(max_nb_chars=100),
-                    fk_fotografo=fake.random_int(min=1, max=100),
-                    fk_tema=fake.random_int(min=1, max=100)
-                )
-                db.add(album)
-                if _ % BATCH_SIZE == 0:
-                    db.commit()
-                    # Iniciar uma nova transação
-                    db.begin()
-            db.commit()
+
+                except IntegrityError as e:
+                    # Lidar com a exceção (por exemplo, imprimir uma mensagem)
+                    print(f"Erro de integridade: {e}")
+                    db.rollback()
         except Exception as e:
             print(f"Erro durante a geração de dados: {e}")
             db.rollback()
@@ -474,7 +599,7 @@ def gerar_dados_ficticios():
         try:
             for _ in range(26000):  # Altere conforme necessário - distribuir bastante a data login
                 logAcessos = LogAcessos(
-                    fk_usuario=fake.random_int(min=1, max=100),
+                    fk_usuario=fake.random_int(min=1, max=50),
                     data_login=fake.date_time()
                 )
                 db.add(logAcessos)
@@ -492,8 +617,8 @@ def gerar_dados_ficticios():
             for _ in range(370):  # Altere conforme necessário
                 logPesquisas = LogPesquisas(
                     termo_busca=fake.word(),
-                    data_pesquisa=fake.date_time(),
-                    fk_usuario=fake.random_int(min=1, max=100)
+                    data_pesquisa=fake.date_time(between_start="-2y", between_end="now"),
+                    fk_usuario=fake.random_int(min=1, max=50000)
                 )
                 db.add(logPesquisas)
                 if _ % BATCH_SIZE == 0:
@@ -506,137 +631,69 @@ def gerar_dados_ficticios():
             db.rollback()
             
         try:
-            for _ in range(7000):  # Altere conforme necessário - Aleatorizar a quantidade de imagens por album
-                imagem = Imagem(
-                    media_url=fake.url(),
-                    permalink=fake.url(),
-                    caption=fake.text(max_nb_chars=100),
-                    media_type=fake.pystr(max_chars=5),
-                    origem_imagem=fake.pystr(max_chars=5),
-                    updated_at=fake.date_time(),
-                    fk_album=fake.random_int(min=1, max=100)
-                )
-                db.add(imagem)
-                if _ % BATCH_SIZE == 0:
-                    db.commit()
-                    # Iniciar uma nova transação
-                    db.begin()
-            db.commit()
-        except Exception as e:
-            print(f"Erro durante a geração de dados: {e}")
-            db.rollback()
-            
-        try:
-            for _ in range(185000): # Gerar um total de 18500 conexões entre tag e imagem
+            for _ in range(1500):  # Gerar um total de 18500 conexões entre tag e imagem
                 while True:
                     try:
-                        tagImagem = TagImagem(
-                            id_tag=fake.random_int(min=1, max=100),
-                            id_imagem=fake.random_int(min=1, max=100)
+                        id_tag = fake.random_int(min=1, max=22)
+                        id_imagem = fake.random_int(min=1, max=1500)
+
+                        tag_imagem = TagImagem(
+                            id_tag=id_tag,
+                            id_imagem=id_imagem
                         )
-                        db.add(tagImagem)
-                        if _ % BATCH_SIZE == 0:
-                            db.commit()
-                            # Iniciar uma nova transação
-                            db.begin()
+
+                        if not db.query(TagImagem).filter_by(id_tag=id_tag, id_imagem=id_imagem).first():
+                            # Inserir apenas se não existir
+                            db.add(tag_imagem)
+
+                            if _ % BATCH_SIZE == 0:
+                                db.commit()
+                                # Iniciar uma nova transação
+                                db.begin()
+
                         break  # Se bem-sucedido, sai do loop
-                    except IntegrityError:
+
+                    except IntegrityError as e:
                         # Se ocorrer uma exceção de integridade, gera novos valores e tenta novamente
+                        print(f"Erro de integridade: {e}")
                         db.rollback()
+
             db.commit()
         except Exception as e:
             print(f"Erro durante a geração de dados: {e}")
             db.rollback()
+
                 
 
             
         try:
-            for _ in range(7530): # Distribuir o interesse de temas entre os usuários
+            for _ in range(5000):  # Distribuir o interesse de temas entre os usuários
                 while True:
                     try:
-                        usuarioTema = UsuarioTema(
-                            id_tema=fake.random_int(min=1, max=100),
-                            id_usuario=fake.random_int(min=1, max=100)
+                        id_tema = fake.random_int(min=1, max=15)
+                        id_usuario = fake.random_int(min=1, max=50000)
+
+                        usuario_tema = UsuarioTema(
+                            id_tema=id_tema,
+                            id_usuario=id_usuario
                         )
-                        db.add(usuarioTema)
-                        if _ % BATCH_SIZE == 0:
-                            db.commit()
-                            # Iniciar uma nova transação
-                            db.begin()
+
+                        if not db.query(UsuarioTema).filter_by(id_tema=id_tema, id_usuario=id_usuario).first():
+                            # Inserir apenas se não existir
+                            db.add(usuario_tema)
+
+                            if _ % BATCH_SIZE == 0:
+                                db.commit()
+                                # Iniciar uma nova transação
+                                db.begin()
+
                         break  # Se bem-sucedido, sai do loop
-                    except IntegrityError:
+
+                    except IntegrityError as e:
                         # Se ocorrer uma exceção de integridade, gera novos valores e tenta novamente
+                        print(f"Erro de integridade: {e}")
                         db.rollback()
-            db.commit()
-        except Exception as e:
-            print(f"Erro durante a geração de dados: {e}")
-            db.rollback()
-                            
-            
-        try:
-            for _ in range(12580):  # Altere conforme necessário - Distribuir as contratações entre os usuários e os clientes
-                sessao = Sessao(
-                    data_realizacao=fake.date_time(),
-                    status_sessao=fake.word(),
-                    created_at=fake.date_time(),
-                    fk_fotografo=fake.random_int(min=1, max=100),
-                    fk_cliente=fake.random_int(min=1, max=100),
-                    fk_tema=fake.random_int(min=1, max=100)
-                )
-                db.add(sessao)
-                if _ % BATCH_SIZE == 0:
-                    db.commit()
-                    # Iniciar uma nova transação
-                    db.begin()
-            db.commit()
-        except Exception as e:
-            print(f"Erro durante a geração de dados: {e}")
-            db.rollback()
-            
-        try:
-            for _ in range(12580):  # Altere conforme necessário - Toda sessão deverão ter um endereço
-                endereco = Endereco(
-                    cep=fake.postcode(),
-                    logradouro=fake.street_name(),
-                    numero=fake.building_number(),
-                    complemento=fake.secondary_address(),
-                    bairro=fake.word(),
-                    cidade=fake.city(),
-                    estado=fake.state(),
-                    fk_sessao=fake.random_int(min=1, max=100)
-                )
-                db.add(endereco)
-                db.add(sessao)
-                if _ % BATCH_SIZE == 0:
-                    db.commit()
-                    # Iniciar uma nova transação
-                    db.begin()
-            db.commit()
-        except Exception as e:
-            print(f"Erro durante a geração de dados: {e}")
-            db.rollback()
-            
-        
-        try:
-            for _ in range(12580): # Toda sessão deve ter uma proposta de pagamento
-                while True:
-                    try:
-                        pagamento = Pagamento(
-                            forma=fake.word(),
-                            valor=fake.pyfloat(min_value=0, max_value=1000),  # Ajuste os limites conforme necessário
-                            parcelas=fake.random_int(min=1, max=12),
-                            fk_sessao=fake.random_int(min=1, max=100)
-                        )
-                        db.add(pagamento)
-                        if _ % BATCH_SIZE == 0:
-                            db.commit()
-                            # Iniciar uma nova transação
-                            db.begin()
-                        break  # Se bem-sucedido, sai do loop
-                    except (IntegrityError, DataError):
-                        # Se ocorrer uma exceção de integridade ou de dados, gera novos valores e tenta novamente
-                        db.rollback()
-            # Commit no final fora do loop
+
             db.commit()
         except Exception as e:
             print(f"Erro durante a geração de dados: {e}")
@@ -645,7 +702,7 @@ def gerar_dados_ficticios():
         try:
             for _ in range(12580):  # Sessões que tiverem o status 'Realizada'
                 avaliacao = Avaliacao(
-                    nota=fake.pyfloat(),
+                    nota=fake.pyfloat(left_digits=1, right_digits=1, positive=True, min_value=0.0, max_value=5.0),
                     descricao=fake.text(max_nb_chars=300),
                     fk_sessao=fake.random_int(min=1, max=100)
                 )
@@ -662,9 +719,9 @@ def gerar_dados_ficticios():
         try:
             for _ in range(30000):  # Aleatorizar logs - não temos regra especifica
                 logSessao = LogSessao(
-                    data_modificacao=fake.date_time(),
-                    status_sessao=fake.word(),
-                    data_realizacao=fake.date_time(),
+                    data_modificacao=fake.date_time_between(start_date="-2y", end_date="now"),
+                    status_sessao=random.choice(status_sessoes),
+                    data_realizacao=fake.date_time_between(start_date="-2y", end_date="+2y"),
                     fk_sessao=fake.random_int(min=1, max=100)
                 )
                 db.add(logSessao)
@@ -676,6 +733,9 @@ def gerar_dados_ficticios():
         except Exception as e:
             print(f"Erro durante a geração de dados: {e}")
             db.rollback()
+            
+    print('Dados fictícios gerados com sucesso!')
+    print('Horário de término: [', datetime.now(), ']' )
             
             
 gerar_dados_ficticios()
