@@ -9,8 +9,8 @@ from datetime import datetime
 from art import *
 
 # Configuração do banco de dados
-DATABASE_URL = "mysql://picmeUser:picme123@localhost/picme"
-engine = create_engine(DATABASE_URL)
+DATABASE_URL = "mysql://root:picmedb1234@3.221.59.77/picme"
+engine = create_engine(DATABASE_URL, pool_size=25, max_overflow=5)
 
 # Definindo a estrutura das tabelas
 Base = declarative_base()
@@ -226,6 +226,13 @@ urls_formatura = [
     "https://images.unsplash.com/photo-1628887919785-ae536631cb76?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&w=500",
     "https://images.unsplash.com/photo-1639765766830-d829d2fe4219?q=80&w=1446&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     "https://images.unsplash.com/photo-1627556704290-2b1f5853ff78?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+]
+
+listFormaPagamento = [
+    "Pix",
+    "Cartão de Crédito",
+    "Transferência Bancária",
+    "Boleto Bancário"
 ]
 
 temas_e_urls = {
@@ -768,8 +775,8 @@ def gerar_dados_ficticios():
 
                             # Cada sessão deve ter uma proposta de pagamento
                             pagamento = Pagamento(
-                                forma=fake.word(),
-                                valor=fake.pyfloat(min_value=0, max_value=1000),
+                                forma=random.choice(listFormaPagamento),
+                                valor=fake.pyfloat(min_value=0, max_value=2500),
                                 parcelas=fake.random_int(min=1, max=12),
                                 fk_sessao=id_sessao
                             )
